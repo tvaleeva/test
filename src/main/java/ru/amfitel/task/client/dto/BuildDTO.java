@@ -1,11 +1,7 @@
 package ru.amfitel.task.client.dto;
 
-import ru.amfitel.task.entity.AbstractEntity;
-
-import javax.persistence.Column;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Bublik on 27.03.2016.
@@ -19,9 +15,11 @@ public class BuildDTO extends AbstractDTO {
 
     private Date date;
 
-    private MaterialDTO idMaterial;
+    private ReferenceBookDTO idMaterial;
 
     private Integer countFloor;
+
+    private List<FloorDTO> floors;
 
     public String getAddress() {
         return address;
@@ -39,11 +37,11 @@ public class BuildDTO extends AbstractDTO {
         this.date = date;
     }
 
-    public MaterialDTO getIdMaterial() {
+    public ReferenceBookDTO getIdMaterial() {
         return idMaterial;
     }
 
-    public void setIdMaterial(MaterialDTO idMaterial) {
+    public void setIdMaterial(ReferenceBookDTO idMaterial) {
         this.idMaterial = idMaterial;
     }
 
@@ -61,5 +59,13 @@ public class BuildDTO extends AbstractDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<FloorDTO> getFloors() {
+        return floors;
+    }
+
+    public void setFloors(List<FloorDTO> floors) {
+        this.floors = floors;
     }
 }

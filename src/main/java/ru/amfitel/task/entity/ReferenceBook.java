@@ -11,7 +11,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "build_material")
-public class Material extends AbstractEntity {
+public class ReferenceBook extends AbstractEntity {
 
     @Column(name = "code")
     private String code;

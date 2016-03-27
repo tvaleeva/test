@@ -3,7 +3,7 @@ package ru.amfitel.task.client.dto;
 /**
  * Created by Bublik on 27.03.2016.
  */
-public class MaterialDTO extends AbstractDTO {
+public class ReferenceBookDTO extends AbstractDTO {
 
     private String code;
 

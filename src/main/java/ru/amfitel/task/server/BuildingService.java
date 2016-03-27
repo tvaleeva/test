@@ -3,6 +3,7 @@ package ru.amfitel.task.server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.amfitel.task.client.dto.BuildDTO;
+import ru.amfitel.task.client.dto.FloorDTO;
 import ru.amfitel.task.entity.Build;
 import ru.amfitel.task.repository.BuildRepository;
 import ru.amfitel.task.transformer.BuildTransformer;
@@ -28,4 +29,6 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
         List<BuildDTO> result = stream.map(transformer::transform).collect(Collectors.toList());
         return result;
     }
+
+
 }

@@ -3,6 +3,7 @@ package ru.amfitel.task.client.service;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import ru.amfitel.task.client.dto.BuildDTO;
+import ru.amfitel.task.client.dto.FloorDTO;
 
 import java.util.List;
 

@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import ru.amfitel.task.client.dto.BuildDTO;
+import ru.amfitel.task.client.dto.FloorDTO;
 import ru.amfitel.task.client.service.BuildingService;
 import ru.amfitel.task.client.service.BuildingServiceAsync;
 
@@ -32,8 +33,17 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
             @Override
             public void onSuccess(List<BuildDTO> buildDTOs) {
                 for(BuildDTO b : buildDTOs) {
-                    TreeItem build = new TreeItem(new Label());
-                    build.setText(b.getName()+b.getIdMaterial().getName());
+                    TreeItem build = new TreeItem(new Label("Название здания: "));
+
+                    build.setText(b.getName()+" "+b.getIdMaterial().getName());
+
+                    for(FloorDTO f : b.getFloors()) {
+
+                        TreeItem floor = new TreeItem(new Label("Информация по этажам: "));
+                        floor.setText(f.getNumber() +" "+f.getFloorTypeDTO().getName()+" "+ f.getSquare() );
+                        build.addItem(floor);
+                    }
+
                     tree.addItem(build);
                     RootPanel.get().add(tree);
                 }
