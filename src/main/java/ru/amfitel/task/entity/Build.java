@@ -1,7 +1,5 @@
 package ru.amfitel.task.entity;
 
-import ru.amfitel.task.client.dto.FloorDTO;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +22,7 @@ public class Build extends AbstractEntity {
 
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="id_material")
-    private ReferenceBook idMaterial;
+    private BuildMaterial idMaterial;
 
     @Column(name = "count_floor")
     private Integer countFloor;
@@ -49,11 +47,11 @@ public class Build extends AbstractEntity {
         this.date = date;
     }
 
-    public ReferenceBook getIdMaterial() {
+    public BuildMaterial getIdMaterial() {
         return idMaterial;
     }
 
-    public void setIdMaterial(ReferenceBook idMaterial) {
+    public void setIdMaterial(BuildMaterial idMaterial) {
         this.idMaterial = idMaterial;
     }
 

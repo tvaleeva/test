@@ -22,7 +22,7 @@ public class BuildTransformer extends AbstractTransformer<Build, BuildDTO> {
     public BuildDTO transform(Build object) {
         BuildDTO buildDTO = super.transform(object);
         buildDTO.setName(object.getName());
-        buildDTO.setIdMaterial(new ReferenceBookTransformer().transform(object.getIdMaterial()));
+        buildDTO.setIdMaterial(new BuildMaterialTransformer().transform(object.getIdMaterial()));
         buildDTO.setAddress(object.getAddress());
         buildDTO.setCountFloor(object.getCountFloor());
         buildDTO.setDate(object.getDate());

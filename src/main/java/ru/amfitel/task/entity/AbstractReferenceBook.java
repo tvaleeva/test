@@ -1,17 +1,15 @@
 package ru.amfitel.task.entity;
 
-import ru.amfitel.task.client.dto.AbstractDTO;
-
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 
 /**
- * Created by Bublik on 27.03.2016.
+ * @author tvaleeva
+ * @since 28.03.2016
  */
-@Entity
-@Table(name = "build_material")
-public class ReferenceBook extends AbstractEntity {
+@MappedSuperclass
+public class AbstractReferenceBook extends AbstractEntity {
+
 
     @Column(name = "code")
     private String code;

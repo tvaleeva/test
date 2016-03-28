@@ -1,0 +1,27 @@
+package ru.amfitel.task.transformer;
+
+import ru.amfitel.task.client.dto.CabinetDTO;
+import ru.amfitel.task.client.dto.FloorDTO;
+import ru.amfitel.task.entity.Cabinet;
+import ru.amfitel.task.entity.Floor;
+
+/**
+ * Created by Bublik on 27.03.2016.
+ */
+public class CabinetTransformer extends AbstractTransformer <Cabinet,CabinetDTO>{
+
+
+    CabinetDTO create() {
+        return new CabinetDTO();
+    }
+
+    @Override
+    public CabinetDTO transform(Cabinet object) {
+        CabinetDTO c = super.transform(object);
+        c.setNumber(object.getNumber());
+        c.setSquare(object.getSquare());
+        c.setCabinetType(new CabinetTypeTransformer().transform(object.getTypeId()));
+
+        return c;
+    }
+}

@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import ru.amfitel.task.client.dto.BuildDTO;
+import ru.amfitel.task.client.dto.CabinetDTO;
 import ru.amfitel.task.client.dto.FloorDTO;
 import ru.amfitel.task.client.service.BuildingService;
 import ru.amfitel.task.client.service.BuildingServiceAsync;
@@ -42,6 +43,12 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                         TreeItem floor = new TreeItem(new Label("Информация по этажам: "));
                         floor.setText(f.getNumber() +" "+f.getFloorTypeDTO().getName()+" "+ f.getSquare() );
                         build.addItem(floor);
+
+                        for (CabinetDTO c : f.getCabinets()) {
+                            TreeItem cabinet = new TreeItem(new Label("Информация по кабинетам: "));
+                            cabinet.setText(c.getNumber() + " " + c.getCabinetType().getName() + " " + c.getSquare());
+                            floor.addItem(cabinet);
+                        }
                     }
 
                     tree.addItem(build);

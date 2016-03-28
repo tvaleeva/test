@@ -1,7 +1,7 @@
 package ru.amfitel.task.entity;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Bublik on 27.03.2016.
@@ -12,7 +12,7 @@ public class Floor extends AbstractEntity {
 
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="type_id")
-    private ReferenceBook typeId;
+    private FloorType typeId;
 
     @Column(name = "count_cabinet")
     private Integer countCabinet;
@@ -22,16 +22,19 @@ public class Floor extends AbstractEntity {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_build")
-    private ReferenceBook buildId;
+    private Build buildId;
 
     @Column(name = "number")
     private Integer number;
 
-    public ReferenceBook getTypeId() {
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "floorId", cascade = CascadeType.ALL)
+    private List<Cabinet> cabinets;
+
+    public FloorType getTypeId() {
         return typeId;
     }
 
-    public void setTypeId(ReferenceBook typeId) {
+    public void setTypeId(FloorType typeId) {
         this.typeId = typeId;
     }
 
@@ -51,11 +54,11 @@ public class Floor extends AbstractEntity {
         this.square = square;
     }
 
-    public ReferenceBook getBuildId() {
+    public Build getBuildId() {
         return buildId;
     }
 
-    public void setBuildId(ReferenceBook buildId) {
+    public void setBuildId(Build buildId) {
         this.buildId = buildId;
     }
 
@@ -65,5 +68,13 @@ public class Floor extends AbstractEntity {
 
     public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    public List<Cabinet> getCabinets() {
+        return cabinets;
+    }
+
+    public void setCabinets(List<Cabinet> cabinets) {
+        this.cabinets = cabinets;
     }
 }

@@ -1,6 +1,7 @@
 package ru.amfitel.task.client.dto;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Bublik on 27.03.2016.
@@ -14,9 +15,11 @@ public class FloorDTO extends AbstractDTO {
 
     private Float square;
 
-    private ReferenceBookDTO idBuild;
+    private BuildDTO idBuild;
 
-    private  ReferenceBookDTO floorTypeDTO;
+    private  FloorTypeDTO floorTypeDTO;
+
+    private List<CabinetDTO> cabinets;
 
     public Integer getNumber() {
         return number;
@@ -42,19 +45,27 @@ public class FloorDTO extends AbstractDTO {
         this.square = square;
     }
 
-    public ReferenceBookDTO getFloorTypeDTO() {
-        return floorTypeDTO;
-    }
-
-    public void setFloorTypeDTO(ReferenceBookDTO floorTypeDTO) {
-        this.floorTypeDTO = floorTypeDTO;
-    }
-
-    public ReferenceBookDTO getIdBuild() {
+    public BuildDTO getIdBuild() {
         return idBuild;
     }
 
-    public void setIdBuild(ReferenceBookDTO idBuild) {
+    public void setIdBuild(BuildDTO idBuild) {
         this.idBuild = idBuild;
+    }
+
+    public FloorTypeDTO getFloorTypeDTO() {
+        return floorTypeDTO;
+    }
+
+    public void setFloorTypeDTO(FloorTypeDTO floorTypeDTO) {
+        this.floorTypeDTO = floorTypeDTO;
+    }
+
+    public List<CabinetDTO> getCabinets() {
+        return cabinets;
+    }
+
+    public void setCabinets(List<CabinetDTO> cabinets) {
+        this.cabinets = cabinets;
     }
 }
