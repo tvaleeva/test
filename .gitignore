@@ -1,0 +1,25 @@
+# Windows
+Thumbs.db
+
+# Java
+*.class
+*.classpath
+*.project
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+
+
+# Maven
+target
+
+# Intellij Idea
+.idea/
+*.iml
+*.iws
+*.ipr
+
+out/artifacts/
