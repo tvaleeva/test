@@ -12,18 +12,11 @@ import static javafx.scene.input.KeyCode.O;
 /**
  * Created by Bublik on 27.03.2016.
  */
-public class BuildMaterialTransformer extends AbstractTransformer <BuildMaterial,BuildMaterialDTO>{
+public class BuildMaterialTransformer extends DictionaryTransformer <BuildMaterial,BuildMaterialDTO>{
 
 
     BuildMaterialDTO create() {
         return new BuildMaterialDTO();
     }
 
-    @Override
-    public BuildMaterialDTO transform(BuildMaterial object) {
-        BuildMaterialDTO b  = super.transform(object);
-        b.setCode(object.getCode());
-        b.setName(object.getName());
-        return b;
-    }
-}
+   }
