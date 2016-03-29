@@ -2,24 +2,27 @@ package ru.amfitel.task.client.tree;
 
 import ru.amfitel.task.client.ElementType;
 import ru.amfitel.task.client.dto.BuildDTO;
+import ru.amfitel.task.client.editor.BuildEditor;
+import ru.amfitel.task.client.editor.DTOEditor;
 
 /**
  * Created by Bublik on 28.03.2016.
  */
 public class BuildItem extends AbstractTreeItem<BuildDTO> {
-    BuildItem buildItem;
 
-    public BuildItem(BuildItem buildItem) {
-        this.buildItem = buildItem;
+
+    public BuildItem(BuildDTO object) {
+        super(object);
+    }
+
+
+    @Override
+    public DTOEditor getEditor() {
+        return new BuildEditor();
     }
 
     @Override
-    ElementType getType() {
-        return ElementType.BuildDTO;
-    }
-
-    @Override
-    BuildItem getObject() {
-        return buildItem;
+    public BuildDTO getObject(){
+        return  new BuildDTO();
     }
 }
