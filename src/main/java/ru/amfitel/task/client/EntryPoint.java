@@ -96,7 +96,7 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                     public void onSelection(SelectionEvent<TreeItem> selectionEvent) {
                       TreeItem  item= selectionEvent.getSelectedItem();
                         if ( item.getType().equals(ElementType.BuildDTO)){
-                            edit(item.getObject());
+                            e;
                         }
                     }
                 })
