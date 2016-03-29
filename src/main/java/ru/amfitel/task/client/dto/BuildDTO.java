@@ -68,4 +68,9 @@ public class BuildDTO extends AbstractDTO {
     public void setFloors(List<FloorDTO> floors) {
         this.floors = floors;
     }
+
+    @Override
+    public String toString() {
+        return getName()+" " + getIdMaterial().getName();
+    }
 }

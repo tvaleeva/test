@@ -15,5 +15,10 @@ public abstract class AbstractTransformer<O extends AbstractEntity, D extends Ab
 
     }
 
+    public void updateEntity (D dto, O entity ){
+
+    }
+
     abstract D create ();
+
 }

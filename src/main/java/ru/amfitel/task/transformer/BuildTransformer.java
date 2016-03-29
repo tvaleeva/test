@@ -34,4 +34,11 @@ public class BuildTransformer extends AbstractTransformer<Build, BuildDTO> {
         buildDTO.setFloors(floors);
         return buildDTO;
     }
+
+    @Override
+    public void updateEntity(BuildDTO dto, Build entity) {
+        super.updateEntity(dto, entity);
+        entity.setName(dto.getName());
+
+    }
 }

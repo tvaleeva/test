@@ -23,6 +23,7 @@ import java.util.List;
  */
 public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
 
+    //обращение  к серверу
     BuildingServiceAsync buildingService = GWT.create(BuildingService.class);
     HorizontalPanel panel;
     VerticalPanel left;
@@ -40,7 +41,38 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
         panel.add(left);
         panel.add(right);
 
+         final
+         Tree tree = new Tree();
+        redrawTree(tree);
+       final  AsyncCallback<Void> callback = new AsyncCallback<Void>() {
+            @Override
+            public void onFailure(Throwable throwable) {
 
+            }
+
+            @Override
+            public void onSuccess(Void aVoid) {
+                //в случае успеха перерисуем дерево
+                right.clear();
+                redrawTree(tree);
+            }
+        };
+
+        tree.addSelectionHandler(new SelectionHandler<TreeItem>() {
+            @Override
+            public void onSelection(SelectionEvent<TreeItem> selectionEvent) {
+
+                AbstractTreeItem item = (AbstractTreeItem) selectionEvent.getSelectedItem();
+                DTOEditor editor = item.getEditor(callback);
+                editor.edit(item.getObject());
+                right.clear();
+                right.add(editor);
+            }
+        });
+    }
+
+    private void redrawTree(final Tree tree) {
+        tree.clear();
         buildingService.loadBuildings(new AsyncCallback<List<BuildDTO>>() {
 
             @Override
@@ -50,8 +82,7 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
 
             @Override
             public void onSuccess(List<BuildDTO> buildDTOs) {
-                Tree tree = new Tree();
-
+                //реакция дерева на сохранение объекта
                 for (BuildDTO b : buildDTOs) {
                     BuildItem buildItem = new BuildItem(b);
                    /* TreeItem build = new TreeItem(new Label("Название здания: "));
@@ -75,26 +106,9 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                     left.add(tree);
 
                 }
-
-                tree.addSelectionHandler(new SelectionHandler<TreeItem>() {
-                    @Override
-                    public void onSelection(SelectionEvent<TreeItem> selectionEvent) {
-
-                        AbstractTreeItem item = (AbstractTreeItem) selectionEvent.getSelectedItem();
-
-
-                        item.getEditor().edit(item.getObject());
-
-
-
-
-                    }
-
-
-                });
-
             }
 
         });
+
     }
 }

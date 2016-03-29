@@ -1,6 +1,7 @@
 package ru.amfitel.task.client.editor;
 
 import com.google.gwt.editor.client.Editor;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import ru.amfitel.task.client.dto.AbstractDTO;
 
@@ -8,16 +9,14 @@ import ru.amfitel.task.client.dto.AbstractDTO;
  * @author tvaleeva
  * @since 29.03.2016
  */
-public class DTOEditor<D extends AbstractDTO> extends VerticalPanel implements Editor<D> {
+public abstract class DTOEditor<D extends AbstractDTO> extends VerticalPanel implements Editor<D> {
 
+    AsyncCallback<Void> callback;
 
-    public DTOEditor() {
-
+    public DTOEditor(AsyncCallback<Void> callback) {
+        this.callback = callback;
     }
 
-   public DTOEditor edit(D object) {
-        return new DTOEditor();
-    }
+    public abstract void edit(D object);
 
-    ;
 }

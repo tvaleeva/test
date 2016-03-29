@@ -14,4 +14,5 @@ import java.util.List;
 public interface BuildingService extends RemoteService {
 
     List<BuildDTO> loadBuildings();
+    void saveBuildDTO(BuildDTO b);
 }

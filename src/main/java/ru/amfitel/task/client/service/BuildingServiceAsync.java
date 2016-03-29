@@ -10,4 +10,5 @@ import java.util.List;
 public interface BuildingServiceAsync {
     void loadBuildings(AsyncCallback<List<BuildDTO>> async);
 
-    }
+    void saveBuildDTO(BuildDTO b, AsyncCallback<Void> async);
+}
