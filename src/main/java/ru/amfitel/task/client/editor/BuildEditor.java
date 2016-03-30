@@ -26,7 +26,7 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
     public DateBox date;
     public TextBox address;
     public IntegerBox countFloor;
-    public ListBox material;
+    public MaterialEditor material;
 
     public Button saveButton;
     // Create the Driver
@@ -38,13 +38,12 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
     public BuildEditor(AsyncCallback<Void> callback) {
         super(callback);
         name = new TextBox();
+        name.setName("Название");
         date = new DateBox();
         address = new TextBox();
         countFloor = new IntegerBox();
-        material = new ListBox();
-        for(Material m : Material.values()){
-            material.addItem(m.getName());
-        }
+        material = new MaterialEditor();
+
 
         saveButton = new Button("Сохранить");
         saveButton.addClickHandler(this);

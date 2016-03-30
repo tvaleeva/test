@@ -1,8 +1,6 @@
 package ru.amfitel.task.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 /**
  * Created by Bublik on 27.03.2016.
@@ -10,6 +8,7 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class AbstractEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "default_gen")
     @Column(name = "id")
     public Long Id;
 

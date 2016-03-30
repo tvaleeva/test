@@ -17,7 +17,7 @@ public class FloorDTO extends AbstractDTO {
 
     private BuildDTO idBuild;
 
-    private  FloorTypeDTO floorTypeDTO;
+
 
     private List<CabinetDTO> cabinets;
 
@@ -53,13 +53,7 @@ public class FloorDTO extends AbstractDTO {
         this.idBuild = idBuild;
     }
 
-    public FloorTypeDTO getFloorTypeDTO() {
-        return floorTypeDTO;
-    }
 
-    public void setFloorTypeDTO(FloorTypeDTO floorTypeDTO) {
-        this.floorTypeDTO = floorTypeDTO;
-    }
 
     public List<CabinetDTO> getCabinets() {
         return cabinets;

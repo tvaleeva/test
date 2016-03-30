@@ -1,6 +1,8 @@
 package ru.amfitel.task.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -8,6 +10,7 @@ import com.google.gwt.user.client.ui.*;
 import ru.amfitel.task.client.dto.BuildDTO;
 import ru.amfitel.task.client.dto.CabinetDTO;
 import ru.amfitel.task.client.dto.FloorDTO;
+import ru.amfitel.task.client.editor.CabinetEditor;
 import ru.amfitel.task.client.editor.DTOEditor;
 import ru.amfitel.task.client.service.BuildingService;
 import ru.amfitel.task.client.service.BuildingServiceAsync;
@@ -42,6 +45,7 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
 
         final Tree tree = new Tree();
         redrawTree(tree);
+        left.add(tree);
         final AsyncCallback<Void> callback = new AsyncCallback<Void>() {
             @Override
             public void onFailure(Throwable throwable) {
@@ -85,7 +89,7 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                     BuildItem buildItem = new BuildItem(b);
 
 
-                    for (FloorDTO f : b.getFloors()) {
+                    for (final FloorDTO f : b.getFloors()) {
                         FloorItem floorItem = new FloorItem(f);
 
                        buildItem.addItem(floorItem);
@@ -94,12 +98,39 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                             CabinetItem cabinetItem = new CabinetItem(c);
                            floorItem.addItem(cabinetItem);
                         }
+                        Button newCabinetButton = new Button("+ каб");
+                        newCabinetButton.addClickHandler(new ClickHandler() {
+                            @Override
+                            public void onClick(ClickEvent event) {
+                                CabinetEditor cabinetEditor = new CabinetEditor(new AsyncCallback<Void>() {
+                                    @Override
+                                    public void onFailure(Throwable caught) {
+
+                                    }
+
+                                    @Override
+                                    public void onSuccess(Void result) {
+                                        right.clear();
+                                        redrawTree(tree);
+                                    }
+                                });
+                                right.add(cabinetEditor);
+                                CabinetDTO cabinetDTO= new CabinetDTO();
+                                cabinetDTO.setIdFloor(f.getId());
+                                cabinetEditor.edit(cabinetDTO);
+
+                            }
+                        });
+                        floorItem.addItem(newCabinetButton);
                     }
+                    Button newFloorButton = new Button("+ эт");
+                    buildItem.addItem(newFloorButton);
 
                     tree.addItem(buildItem);
-                    left.add(tree);
 
                 }
+                Button newBuildingButton = new Button("+ дом");
+                tree.addItem(newBuildingButton);
             }
 
         });

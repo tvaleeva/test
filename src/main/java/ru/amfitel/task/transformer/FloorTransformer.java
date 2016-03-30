@@ -24,7 +24,7 @@ public class FloorTransformer extends AbstractTransformer <Floor,FloorDTO>{
         floorDTO.setCountCabinet(object.getCountCabinet());
         floorDTO.setNumber(object.getNumber());
         floorDTO.setSquare(object.getSquare());
-        floorDTO.setFloorTypeDTO(new FloorTypeTransformer().transform(object.getTypeId()));
+
 
         List<CabinetDTO> cabinets = new ArrayList<>();
         //object.getFloors().stream().forEach(()->floors.add(new FloorTransformer().transform(f)));

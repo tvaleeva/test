@@ -75,6 +75,7 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
     @Override
     public void saveCabinetDTO(CabinetDTO c) {
         Cabinet cabinet;
+
         if(c.getId()==null){
             cabinet = new Cabinet();
         } else
@@ -83,6 +84,7 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
         }
 
         CabinetTransformer transformer = new CabinetTransformer();
+        cabinet.setFloorId(floorRepository.findOne(c.getIdFloor()));
         transformer.updateEntity(c,cabinet);
         cabinetRepository.save(cabinet);
     }

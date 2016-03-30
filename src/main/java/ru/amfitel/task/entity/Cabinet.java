@@ -7,11 +7,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "cabinet")
+@SequenceGenerator(name = "default_gen", sequenceName = "id_cabinet_seq", allocationSize = 1)
 public class Cabinet extends AbstractEntity {
 
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="type_id")
-    private CabinetType typeId;
 
    @Column(name = "square")
     private Double square;
@@ -23,13 +21,7 @@ public class Cabinet extends AbstractEntity {
     @Column(name = "number")
     private Integer number;
 
-    public CabinetType getTypeId() {
-        return typeId;
-    }
 
-    public void setTypeId(CabinetType typeId) {
-        this.typeId = typeId;
-    }
 
     public Double getSquare() {
         return square;

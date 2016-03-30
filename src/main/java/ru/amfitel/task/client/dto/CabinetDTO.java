@@ -10,9 +10,9 @@ public class CabinetDTO extends AbstractDTO {
 
     private Double square;
 
-    private FloorTypeDTO idFloor;
+    private Long idFloor;
 
-    private  CabinetTypeDTO cabinetType;
+
 
     public Integer getNumber() {
         return number;
@@ -30,21 +30,15 @@ public class CabinetDTO extends AbstractDTO {
         this.square = square;
     }
 
-    public FloorTypeDTO getIdFloor() {
+    public Long getIdFloor() {
         return idFloor;
     }
 
-    public void setIdFloor(FloorTypeDTO idFloor) {
+    public void setIdFloor(Long idFloor) {
         this.idFloor = idFloor;
     }
 
-    public CabinetTypeDTO getCabinetType() {
-        return cabinetType;
-    }
 
-    public void setCabinetType(CabinetTypeDTO cabinetType) {
-        this.cabinetType = cabinetType;
-    }
 
     @Override
     public String toString() {

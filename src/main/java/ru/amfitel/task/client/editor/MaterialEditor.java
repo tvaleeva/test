@@ -18,17 +18,35 @@ import java.util.Map;
  * @since 30.03.2016
  */
 public class MaterialEditor  extends FlowPanel implements LeafValueEditor<Material> {
+ private ListBox listBox;
 
+    public MaterialEditor() {
+         listBox = new ListBox();
 
+        for(Material m : Material.values()){
+            listBox.addItem(m.getName());
 
+        }
+        add(listBox);
+    }
 
     @Override
     public void setValue(Material material) {
+
+        for(int i=0;i<listBox.getItemCount();i++){
+            if (listBox.getItemText(i).equals(material.getName())){
+                listBox.setSelectedIndex(i);
+                return;
+            }
+        }
+
+
 
     }
 
     @Override
     public Material getValue() {
-        return null;
+
+        return Material.getByName(listBox.getSelectedItemText());
     }
 }

@@ -23,7 +23,6 @@ public class BuildTransformer extends AbstractTransformer<Build, BuildDTO> {
     public BuildDTO transform(Build object) {
         BuildDTO buildDTO = super.transform(object);
         buildDTO.setName(object.getName());
-        buildDTO.setMaterial(Material.getByName(object.getMaterial()));
         buildDTO.setAddress(object.getAddress());
         buildDTO.setCountFloor(object.getCountFloor());
         buildDTO.setDate(object.getDate());
@@ -32,7 +31,7 @@ public class BuildTransformer extends AbstractTransformer<Build, BuildDTO> {
             floors.add(new FloorTransformer().transform(f));
         }
         buildDTO.setFloors(floors);
-        buildDTO.setMaterial(Material.getByName(object.getMaterial()));
+        buildDTO.setMaterial(object.getMaterial());
                 return buildDTO;
     }
 
@@ -43,6 +42,7 @@ public class BuildTransformer extends AbstractTransformer<Build, BuildDTO> {
         entity.setDate(dto.getDate());
         entity.setAddress(dto.getAddress());
         entity.setCountFloor(dto.getCountFloor());
+        entity.setMaterial(dto.getMaterial());
         //TODO добавить материал
 
     }

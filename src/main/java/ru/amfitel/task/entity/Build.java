@@ -11,6 +11,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "build")
+@SequenceGenerator(name = "default_gen", sequenceName = "id_cabinet_seq", allocationSize = 1)
+//TODO id
 public class Build extends AbstractEntity {
 
     @Column(name = "name")
@@ -23,7 +25,8 @@ public class Build extends AbstractEntity {
     private Date date;
 
     @Column(name = "material")
-    private String material;
+    @Enumerated
+    private Material material;
 
     @Column(name = "count_floor")
     private Integer countFloor;
@@ -48,11 +51,11 @@ public class Build extends AbstractEntity {
         this.date = date;
     }
 
-    public String getMaterial() {
+    public Material getMaterial() {
         return material;
     }
 
-    public void setMaterial(String material) {
+    public void setMaterial(Material material) {
         this.material = material;
     }
 

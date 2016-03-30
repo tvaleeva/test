@@ -8,11 +8,11 @@ import java.util.List;
  */
 @Entity
 @Table(name = "floor")
+@SequenceGenerator(name = "default_gen", sequenceName = "id_cabinet_seq", allocationSize = 1)
+//TODO
 public class Floor extends AbstractEntity {
 
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="type_id")
-    private FloorType typeId;
+
 
     @Column(name = "count_cabinet")
     private Integer countCabinet;
@@ -30,13 +30,7 @@ public class Floor extends AbstractEntity {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "floorId", cascade = CascadeType.ALL)
     private List<Cabinet> cabinets;
 
-    public FloorType getTypeId() {
-        return typeId;
-    }
 
-    public void setTypeId(FloorType typeId) {
-        this.typeId = typeId;
-    }
 
     public Integer getCountCabinet() {
         return countCabinet;
