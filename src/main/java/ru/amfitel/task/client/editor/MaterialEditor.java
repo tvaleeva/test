@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class MaterialEditor  extends FlowPanel implements LeafValueEditor<Material> {
 
-    
+
 
 
     @Override
