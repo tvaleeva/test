@@ -24,4 +24,12 @@ public class CabinetTransformer extends AbstractTransformer <Cabinet,CabinetDTO>
 
         return c;
     }
+
+    @Override
+    public void updateEntity(CabinetDTO dto, Cabinet entity) {
+        super.updateEntity(dto, entity);
+        entity.setNumber(dto.getNumber());
+        entity.setSquare(dto.getSquare());
+        //TODO добавить остальные поля
+    }
 }

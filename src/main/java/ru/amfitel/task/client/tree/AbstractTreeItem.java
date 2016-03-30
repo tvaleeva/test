@@ -1,9 +1,7 @@
 package ru.amfitel.task.client.tree;
 
-import com.google.gwt.editor.client.Editor;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.TreeItem;
-import ru.amfitel.task.client.ElementType;
 import ru.amfitel.task.client.dto.AbstractDTO;
 import ru.amfitel.task.client.editor.DTOEditor;
 

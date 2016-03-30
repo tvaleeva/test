@@ -3,9 +3,17 @@ package ru.amfitel.task.server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.amfitel.task.client.dto.BuildDTO;
+import ru.amfitel.task.client.dto.CabinetDTO;
+import ru.amfitel.task.client.dto.FloorDTO;
 import ru.amfitel.task.entity.Build;
+import ru.amfitel.task.entity.Cabinet;
+import ru.amfitel.task.entity.Floor;
 import ru.amfitel.task.repository.BuildRepository;
+import ru.amfitel.task.repository.CabinetRepository;
+import ru.amfitel.task.repository.FloorRepository;
 import ru.amfitel.task.transformer.BuildTransformer;
+import ru.amfitel.task.transformer.CabinetTransformer;
+import ru.amfitel.task.transformer.FloorTransformer;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +28,12 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
 
     @Autowired
     private BuildRepository buildRepository;
+
+    @Autowired
+    private FloorRepository floorRepository;
+
+    @Autowired
+    private CabinetRepository cabinetRepository;
 
     public List<BuildDTO> loadBuildings() {
         Iterable<Build> iterable = buildRepository.findAll();
@@ -39,11 +53,38 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
         }
 
         BuildTransformer transformer = new BuildTransformer();
-        transformer.updateEntity(b,build);
+        transformer.updateEntity(b, build);
         buildRepository.save(build);
 
 
+    }
 
+    @Override
+    public void saveFloorDTO(FloorDTO f) {
+        Floor floor;
+        if (f.getId() == null) {
+            floor = new Floor();
+        } else {
+            floor = floorRepository.findOne(f.getId());
+        }
+        FloorTransformer transformer = new FloorTransformer();
+        transformer.updateEntity(f,floor);
+        floorRepository.save(floor);
+    }
+
+    @Override
+    public void saveCabinetDTO(CabinetDTO c) {
+        Cabinet cabinet;
+        if(c.getId()==null){
+            cabinet = new Cabinet();
+        } else
+        {
+            cabinet = cabinetRepository.findOne(c.getId());
+        }
+
+        CabinetTransformer transformer = new CabinetTransformer();
+        transformer.updateEntity(c,cabinet);
+        cabinetRepository.save(cabinet);
     }
 
 

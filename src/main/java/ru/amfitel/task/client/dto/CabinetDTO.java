@@ -45,4 +45,9 @@ public class CabinetDTO extends AbstractDTO {
     public void setCabinetType(CabinetTypeDTO cabinetType) {
         this.cabinetType = cabinetType;
     }
+
+    @Override
+    public String toString() {
+        return getNumber()+"";
+    }
 }

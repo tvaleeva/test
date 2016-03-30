@@ -68,4 +68,9 @@ public class FloorDTO extends AbstractDTO {
     public void setCabinets(List<CabinetDTO> cabinets) {
         this.cabinets = cabinets;
     }
+
+    @Override
+    public String toString() {
+        return  getNumber()+"/ " +getCountCabinet();
+    }
 }

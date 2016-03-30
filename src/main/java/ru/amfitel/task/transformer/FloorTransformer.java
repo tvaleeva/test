@@ -35,4 +35,12 @@ public class FloorTransformer extends AbstractTransformer <Floor,FloorDTO>{
         //floorDTO.setIdBuild(new BuildTransformer().transform(object.getFloorId()));
         return floorDTO;
     }
+
+    @Override
+    public void updateEntity(FloorDTO dto, Floor entity) {
+        super.updateEntity(dto, entity);
+        entity.setNumber(dto.getNumber());
+        entity.setCountCabinet(dto.getCountCabinet());
+        //TODO добавить и остальные поля
+    }
 }

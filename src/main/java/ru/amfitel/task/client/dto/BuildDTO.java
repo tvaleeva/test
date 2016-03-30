@@ -1,5 +1,7 @@
 package ru.amfitel.task.client.dto;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
+
 import java.util.Date;
 import java.util.List;
 
@@ -71,6 +73,8 @@ public class BuildDTO extends AbstractDTO {
 
     @Override
     public String toString() {
-        return getName()+" " + getIdMaterial().getName();
+
+
+        return getName() + "/ " + DateTimeFormat.getFormat("d.M.y").format(getDate()) + "/ " +getAddress()+"/ "+ getIdMaterial().getName();
     }
 }

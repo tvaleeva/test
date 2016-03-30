@@ -27,7 +27,6 @@ public class BuildTransformer extends AbstractTransformer<Build, BuildDTO> {
         buildDTO.setCountFloor(object.getCountFloor());
         buildDTO.setDate(object.getDate());
         List<FloorDTO> floors = new ArrayList<>();
-        //object.getFloors().stream().forEach(()->floors.add(new FloorTransformer().transform(f)));
         for (Floor f : object.getFloors()) {
             floors.add(new FloorTransformer().transform(f));
         }
@@ -39,6 +38,10 @@ public class BuildTransformer extends AbstractTransformer<Build, BuildDTO> {
     public void updateEntity(BuildDTO dto, Build entity) {
         super.updateEntity(dto, entity);
         entity.setName(dto.getName());
+        entity.setDate(dto.getDate());
+        entity.setAddress(dto.getAddress());
+        entity.setCountFloor(dto.getCountFloor());
+        //TODO добавить материал
 
     }
 }
