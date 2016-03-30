@@ -14,7 +14,7 @@ public class Cabinet extends AbstractEntity {
     private CabinetType typeId;
 
    @Column(name = "square")
-    private Float square;
+    private Double square;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="floor_id")
@@ -31,11 +31,11 @@ public class Cabinet extends AbstractEntity {
         this.typeId = typeId;
     }
 
-    public Float getSquare() {
+    public Double getSquare() {
         return square;
     }
 
-    public void setSquare(Float square) {
+    public void setSquare(Double square) {
         this.square = square;
     }
 

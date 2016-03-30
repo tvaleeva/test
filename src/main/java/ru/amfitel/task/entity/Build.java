@@ -1,5 +1,7 @@
 package ru.amfitel.task.entity;
 
+import ru.amfitel.task.client.dictionary.Material;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -20,9 +22,8 @@ public class Build extends AbstractEntity {
     @Column(name = "date")
     private Date date;
 
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="id_material")
-    private BuildMaterial idMaterial;
+    @Column(name = "material")
+    private String material;
 
     @Column(name = "count_floor")
     private Integer countFloor;
@@ -47,12 +48,12 @@ public class Build extends AbstractEntity {
         this.date = date;
     }
 
-    public BuildMaterial getIdMaterial() {
-        return idMaterial;
+    public String getMaterial() {
+        return material;
     }
 
-    public void setIdMaterial(BuildMaterial idMaterial) {
-        this.idMaterial = idMaterial;
+    public void setMaterial(String material) {
+        this.material = material;
     }
 
     public Integer getCountFloor() {

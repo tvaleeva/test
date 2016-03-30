@@ -8,7 +8,7 @@ public class CabinetDTO extends AbstractDTO {
 
     private Integer number;
 
-    private Float square;
+    private Double square;
 
     private FloorTypeDTO idFloor;
 
@@ -22,11 +22,11 @@ public class CabinetDTO extends AbstractDTO {
         this.number = number;
     }
 
-    public Float getSquare() {
+    public Double getSquare() {
         return square;
     }
 
-    public void setSquare(Float square) {
+    public void setSquare(Double square) {
         this.square = square;
     }
 

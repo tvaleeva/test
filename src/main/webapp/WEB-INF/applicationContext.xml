@@ -13,7 +13,7 @@
         <property name="driverClass" value="org.postgresql.Driver"/>
         <property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/postgres"/>
         <property name="user" value="postgres"/>
-        <property name="password" value="root"/>
+        <property name="password" value="nfnfhcrbq"/>
         <property name="maxPoolSize" value="50"/>
         <property name="initialPoolSize" value="1"/>
         <property name="minPoolSize" value="1"/>

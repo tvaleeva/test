@@ -1,5 +1,6 @@
 package ru.amfitel.task.transformer;
 
+import ru.amfitel.task.client.dictionary.Material;
 import ru.amfitel.task.client.dto.BuildDTO;
 import ru.amfitel.task.client.dto.FloorDTO;
 import ru.amfitel.task.entity.Build;
@@ -22,7 +23,7 @@ public class BuildTransformer extends AbstractTransformer<Build, BuildDTO> {
     public BuildDTO transform(Build object) {
         BuildDTO buildDTO = super.transform(object);
         buildDTO.setName(object.getName());
-        buildDTO.setIdMaterial(new BuildMaterialTransformer().transform(object.getIdMaterial()));
+        buildDTO.setMaterial(Material.getByName(object.getMaterial()));
         buildDTO.setAddress(object.getAddress());
         buildDTO.setCountFloor(object.getCountFloor());
         buildDTO.setDate(object.getDate());
@@ -31,7 +32,8 @@ public class BuildTransformer extends AbstractTransformer<Build, BuildDTO> {
             floors.add(new FloorTransformer().transform(f));
         }
         buildDTO.setFloors(floors);
-        return buildDTO;
+        buildDTO.setMaterial(Material.getByName(object.getMaterial()));
+                return buildDTO;
     }
 
     @Override

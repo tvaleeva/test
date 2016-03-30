@@ -1,6 +1,7 @@
 package ru.amfitel.task.client.dto;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
+import ru.amfitel.task.client.dictionary.Material;
 
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,7 @@ public class BuildDTO extends AbstractDTO {
 
     private Date date;
 
-    private ReferenceBookDTO idMaterial;
+    private Material material;
 
     private Integer countFloor;
 
@@ -39,12 +40,12 @@ public class BuildDTO extends AbstractDTO {
         this.date = date;
     }
 
-    public ReferenceBookDTO getIdMaterial() {
-        return idMaterial;
+    public Material getMaterial() {
+        return material;
     }
 
-    public void setIdMaterial(ReferenceBookDTO idMaterial) {
-        this.idMaterial = idMaterial;
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 
     public Integer getCountFloor() {
@@ -75,6 +76,6 @@ public class BuildDTO extends AbstractDTO {
     public String toString() {
 
 
-        return getName() + "/ " + DateTimeFormat.getFormat("d.M.y").format(getDate()) + "/ " +getAddress()+"/ "+ getIdMaterial().getName();
+        return getName() + "/ " + DateTimeFormat.getFormat("d.M.y").format(getDate()) + "/ " +getAddress()+"/ "+ getMaterial().getName();
     }
 }

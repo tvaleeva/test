@@ -7,8 +7,10 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.IntegerBox;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
+import ru.amfitel.task.client.dictionary.Material;
 import ru.amfitel.task.client.dto.BuildDTO;
 import ru.amfitel.task.client.service.BuildingService;
 import ru.amfitel.task.client.service.BuildingServiceAsync;
@@ -24,6 +26,7 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
     public DateBox date;
     public TextBox address;
     public IntegerBox countFloor;
+    public ListBox material;
 
     public Button saveButton;
     // Create the Driver
@@ -35,21 +38,22 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
     public BuildEditor(AsyncCallback<Void> callback) {
         super(callback);
         name = new TextBox();
-
         date = new DateBox();
         address = new TextBox();
         countFloor = new IntegerBox();
-
+        material = new ListBox();
+        for(Material m : Material.values()){
+            material.addItem(m.getName());
+        }
 
         saveButton = new Button("Сохранить");
         saveButton.addClickHandler(this);
-
 
         add(name);
         add(date);
         add(address);
         add(countFloor);
-
+        add(material);
         add(saveButton);
     }
 
