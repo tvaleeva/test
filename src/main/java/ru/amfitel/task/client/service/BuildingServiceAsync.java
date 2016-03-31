@@ -18,4 +18,6 @@ public interface BuildingServiceAsync {
     void saveCabinetDTO(CabinetDTO c, AsyncCallback<Void> async);
 
     void deleteCabinetDTO(Long id, AsyncCallback<Void> async);
+
+    void deleteBuild(Long id, AsyncCallback<Void> async);
 }

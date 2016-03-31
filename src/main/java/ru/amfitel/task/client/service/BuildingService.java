@@ -19,4 +19,5 @@ public interface BuildingService extends RemoteService {
     void saveFloorDTO(FloorDTO f);
     void saveCabinetDTO(CabinetDTO c);
     void deleteCabinetDTO(Long id);
+    void deleteBuild(Long id);
 }

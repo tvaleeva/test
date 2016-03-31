@@ -7,10 +7,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.IntegerBox;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
-import ru.amfitel.task.client.dictionary.Material;
 import ru.amfitel.task.client.dto.BuildDTO;
 import ru.amfitel.task.client.service.BuildingService;
 import ru.amfitel.task.client.service.BuildingServiceAsync;
@@ -29,6 +27,7 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
     public MaterialEditor material;
 
     public Button saveButton;
+    public Button deleteButton;
     // Create the Driver
     Driver driver = GWT.create(Driver.class);
 
@@ -44,9 +43,10 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
         countFloor = new IntegerBox();
         material = new MaterialEditor();
 
-
+        deleteButton = new Button("Удалить");
         saveButton = new Button("Сохранить");
         saveButton.addClickHandler(this);
+
 
         add(name);
         add(date);
@@ -54,6 +54,7 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
         add(countFloor);
         add(material);
         add(saveButton);
+        add(deleteButton);
     }
 
     @Override
@@ -63,10 +64,16 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
     }
 
     @Override
-    public void edit(BuildDTO p) {
+    public void edit(final BuildDTO p) {
         driver.initialize(this);
         // Copy the data in the object into the UI
         driver.edit(p);
+        deleteButton.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                buildingService.deleteBuild(p.getId(),callback);
+            }
+        });
     }
 
     public TextBox name() {

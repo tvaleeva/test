@@ -35,6 +35,7 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
     @Autowired
     private CabinetRepository cabinetRepository;
 
+
     public List<BuildDTO> loadBuildings() {
         Iterable<Build> iterable = buildRepository.findAll();
         Stream<Build> stream = StreamSupport.stream(iterable.spliterator(), false);
@@ -93,6 +94,11 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
     @Override
     public void deleteCabinetDTO(Long id) {
         cabinetRepository.delete(id);
+    }
+
+    @Override
+    public void deleteBuild(Long id) {
+        buildRepository.delete(id);
     }
 
 

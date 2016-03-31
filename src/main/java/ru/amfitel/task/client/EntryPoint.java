@@ -93,18 +93,19 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                             CabinetItem cabinetItem = new CabinetItem(c);
                            floorItem.addItem(cabinetItem);
                             Button deleteCabinetButton = new Button("удалить каб");
+                            cabinetItem.addItem(deleteCabinetButton);
                             deleteCabinetButton.addClickHandler(new ClickHandler() {
                                 @Override
                                 public void onClick(ClickEvent clickEvent) {
 
                                     //вызвать сервис удалить кабинет с id c.getId
 
-                                    buildingService.deleteCabinetDTO( c.getId(),  new  FailureIgnoreCallback<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            refreshTree(tree);
-                                        }
-                                    });
+//                                    buildingService.deleteCabinetDTO( c.getId(),  new  FailureIgnoreCallback<Void>() {
+//                                        @Override
+//                                        public void onSuccess(Void aVoid) {
+//                                            refreshTree(tree);
+//                                        }
+//                                    });
 
                                 }
                             });
