@@ -4,20 +4,17 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 
 import java.io.Serializable;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 /**
  * @author tvaleeva
- * @since 30.03.2016
+ * @since 31.03.2016
  */
-
-public enum Material implements  Serializable, IsSerializable {
-    BRICK("кирпич"),
-    LOG("бревно");
+public enum FloorType implements Serializable, IsSerializable {
+    LOFT("чердак"),
+    TECHNICAL_FLOOR ("технический этаж");
 
     private String name;
 
-    Material(String name) {
+    FloorType(String name) {
         this.name = name;
     }
 
@@ -25,8 +22,8 @@ public enum Material implements  Serializable, IsSerializable {
         return name;
     }
 
-    public static Material getByName(String name) {
-        for (Material val : values()) {
+    public static FloorType getByName(String name) {
+        for (FloorType val : values()) {
             if (val.getName().equals(name))
                 return val;
         }

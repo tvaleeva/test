@@ -7,11 +7,14 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import ru.amfitel.task.client.callback.FailureIgnoreCallback;
 import ru.amfitel.task.client.dto.BuildDTO;
 import ru.amfitel.task.client.dto.CabinetDTO;
 import ru.amfitel.task.client.dto.FloorDTO;
+import ru.amfitel.task.client.editor.BuildEditor;
 import ru.amfitel.task.client.editor.CabinetEditor;
 import ru.amfitel.task.client.editor.DTOEditor;
+import ru.amfitel.task.client.editor.FloorEditor;
 import ru.amfitel.task.client.service.BuildingService;
 import ru.amfitel.task.client.service.BuildingServiceAsync;
 import ru.amfitel.task.client.tree.AbstractTreeItem;
@@ -46,17 +49,12 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
         final Tree tree = new Tree();
         redrawTree(tree);
         left.add(tree);
-        final AsyncCallback<Void> callback = new AsyncCallback<Void>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-
-            }
+        final FailureIgnoreCallback<Void> callback = new FailureIgnoreCallback<Void>() {
 
             @Override
             public void onSuccess(Void aVoid) {
                 //в случае успеха перерисуем дерево
-                right.clear();
-                redrawTree(tree);
+                refreshTree(tree);
             }
         };
 
@@ -75,17 +73,14 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
 
     private void redrawTree(final Tree tree) {
         tree.clear();
-        buildingService.loadBuildings(new AsyncCallback<List<BuildDTO>>() {
+        buildingService.loadBuildings(new FailureIgnoreCallback<List<BuildDTO>>() {
 
-            @Override
-            public void onFailure(Throwable throwable) {
 
-            }
 
             @Override
             public void onSuccess(List<BuildDTO> buildDTOs) {
                 //реакция дерева на сохранение объекта
-                for (BuildDTO b : buildDTOs) {
+                for (final BuildDTO b : buildDTOs) {
                     BuildItem buildItem = new BuildItem(b);
 
 
@@ -97,21 +92,32 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                         for (CabinetDTO c : f.getCabinets()) {
                             CabinetItem cabinetItem = new CabinetItem(c);
                            floorItem.addItem(cabinetItem);
+                            Button deleteCabinetButton = new Button("удалить каб");
+                            deleteCabinetButton.addClickHandler(new ClickHandler() {
+                                @Override
+                                public void onClick(ClickEvent clickEvent) {
+
+                                    //вызвать сервис удалить кабинет с id c.getId
+
+                                    buildingService.deleteCabinetDTO( c.getId(),  new  FailureIgnoreCallback<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            refreshTree(tree);
+                                        }
+                                    });
+
+                                }
+                            });
                         }
                         Button newCabinetButton = new Button("+ каб");
                         newCabinetButton.addClickHandler(new ClickHandler() {
                             @Override
                             public void onClick(ClickEvent event) {
-                                CabinetEditor cabinetEditor = new CabinetEditor(new AsyncCallback<Void>() {
+                                right.clear();
+                                CabinetEditor cabinetEditor = new CabinetEditor(new FailureIgnoreCallback<Void>() {
                                     @Override
-                                    public void onFailure(Throwable caught) {
-
-                                    }
-
-                                    @Override
-                                    public void onSuccess(Void result) {
-                                        right.clear();
-                                        redrawTree(tree);
+                                    public void onSuccess(Void aVoid) {
+                                        refreshTree(tree);
                                     }
                                 });
                                 right.add(cabinetEditor);
@@ -125,15 +131,56 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                     }
                     Button newFloorButton = new Button("+ эт");
                     buildItem.addItem(newFloorButton);
+                    newFloorButton.addClickHandler(new ClickHandler() {
+                        @Override
+                        public void onClick(ClickEvent clickEvent) {
+                            right.clear();
+
+                            FloorEditor floorEditor = new FloorEditor(new FailureIgnoreCallback<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    refreshTree(tree);
+                                }
+                            });
+
+
+                            right.add(floorEditor);
+                            FloorDTO floorDTO= new FloorDTO();
+                            floorDTO.setIdBuild(b.getId());
+                            floorEditor.edit(floorDTO);
+
+                        }
+                    });
 
                     tree.addItem(buildItem);
 
                 }
                 Button newBuildingButton = new Button("+ дом");
                 tree.addItem(newBuildingButton);
+                newBuildingButton.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent clickEvent) {
+                        right.clear();
+                        BuildEditor buildEditor = new BuildEditor(new FailureIgnoreCallback<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                refreshTree(tree);
+                            }
+                        });
+
+                        right.add(buildEditor);
+                        buildEditor.edit(new BuildDTO());
+
+                    }
+                });
             }
 
         });
 
+    }
+
+    private void refreshTree(Tree tree) {
+        right.clear();
+        redrawTree(tree);
     }
 }

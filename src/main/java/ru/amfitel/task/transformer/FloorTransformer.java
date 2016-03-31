@@ -24,15 +24,14 @@ public class FloorTransformer extends AbstractTransformer <Floor,FloorDTO>{
         floorDTO.setCountCabinet(object.getCountCabinet());
         floorDTO.setNumber(object.getNumber());
         floorDTO.setSquare(object.getSquare());
-
-
+        floorDTO.setType(object.getType());
         List<CabinetDTO> cabinets = new ArrayList<>();
-        //object.getFloors().stream().forEach(()->floors.add(new FloorTransformer().transform(f)));
         for (Cabinet c : object.getCabinets()) {
             cabinets.add(new CabinetTransformer().transform(c));
         }
+        floorDTO.setIdBuild(object.getBuildId().getId());
         floorDTO.setCabinets(cabinets);
-        //floorDTO.setIdBuild(new BuildTransformer().transform(object.getFloorId()));
+
         return floorDTO;
     }
 
@@ -41,6 +40,6 @@ public class FloorTransformer extends AbstractTransformer <Floor,FloorDTO>{
         super.updateEntity(dto, entity);
         entity.setNumber(dto.getNumber());
         entity.setCountCabinet(dto.getCountCabinet());
-        //TODO добавить и остальные поля
+        entity.setType(dto.getType());
     }
 }

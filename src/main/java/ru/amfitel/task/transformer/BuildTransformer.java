@@ -1,6 +1,5 @@
 package ru.amfitel.task.transformer;
 
-import ru.amfitel.task.client.dictionary.Material;
 import ru.amfitel.task.client.dto.BuildDTO;
 import ru.amfitel.task.client.dto.FloorDTO;
 import ru.amfitel.task.entity.Build;
@@ -32,7 +31,7 @@ public class BuildTransformer extends AbstractTransformer<Build, BuildDTO> {
         }
         buildDTO.setFloors(floors);
         buildDTO.setMaterial(object.getMaterial());
-                return buildDTO;
+        return buildDTO;
     }
 
     @Override
@@ -43,7 +42,5 @@ public class BuildTransformer extends AbstractTransformer<Build, BuildDTO> {
         entity.setAddress(dto.getAddress());
         entity.setCountFloor(dto.getCountFloor());
         entity.setMaterial(dto.getMaterial());
-        //TODO добавить материал
-
     }
 }

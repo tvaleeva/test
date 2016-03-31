@@ -1,30 +1,24 @@
 package ru.amfitel.task.client.editor;
 
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.LeafValueEditor;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
-import ru.amfitel.task.client.dictionary.Material;
-
-import java.util.HashMap;
-import java.util.Map;
+import ru.amfitel.task.client.dictionary.CabinetType;
+import ru.amfitel.task.client.dictionary.FloorType;
 
 /**
  * @author tvaleeva
  * @since 30.03.2016
  */
-public class MaterialEditor  extends FlowPanel implements LeafValueEditor<Material> {
+public class CabinetTypeEditor extends FlowPanel implements LeafValueEditor<CabinetType> {
  private ListBox listBox;
 
-    public MaterialEditor() {
+    public CabinetTypeEditor() {
          listBox = new ListBox();
 
 
-        for(Material m : Material.values()){
+        for(CabinetType m : CabinetType.values()){
             listBox.addItem(m.getName());
 
         }
@@ -32,7 +26,7 @@ public class MaterialEditor  extends FlowPanel implements LeafValueEditor<Materi
     }
 
     @Override
-    public void setValue(Material material) {
+    public void setValue(CabinetType material) {
 
         for(int i=0;i<listBox.getItemCount();i++){
             if (listBox.getItemText(i).equals(material.getName())){
@@ -43,7 +37,7 @@ public class MaterialEditor  extends FlowPanel implements LeafValueEditor<Materi
     }
 
     @Override
-    public Material getValue() {
-        return Material.getByName(listBox.getSelectedItemText());
+    public CabinetType getValue() {
+        return CabinetType.getByName(listBox.getSelectedItemText());
     }
 }

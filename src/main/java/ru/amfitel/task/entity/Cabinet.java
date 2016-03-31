@@ -1,5 +1,8 @@
 package ru.amfitel.task.entity;
 
+import ru.amfitel.task.client.dictionary.CabinetType;
+import ru.amfitel.task.client.dictionary.FloorType;
+
 import javax.persistence.*;
 
 /**
@@ -21,7 +24,9 @@ public class Cabinet extends AbstractEntity {
     @Column(name = "number")
     private Integer number;
 
-
+    @Column(name = "type")
+    @Enumerated
+    private CabinetType type;
 
     public Double getSquare() {
         return square;
@@ -45,5 +50,13 @@ public class Cabinet extends AbstractEntity {
 
     public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    public CabinetType getType() {
+        return type;
+    }
+
+    public void setType(CabinetType type) {
+        this.type = type;
     }
 }

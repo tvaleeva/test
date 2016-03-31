@@ -8,6 +8,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DoubleBox;
 import com.google.gwt.user.client.ui.IntegerBox;
+import com.google.gwt.user.client.ui.ListBox;
+import ru.amfitel.task.client.dictionary.CabinetType;
 import ru.amfitel.task.client.dto.CabinetDTO;
 import ru.amfitel.task.client.service.BuildingService;
 import ru.amfitel.task.client.service.BuildingServiceAsync;
@@ -21,6 +23,7 @@ public class CabinetEditor extends DTOEditor<CabinetDTO> implements ClickHandler
 
     public IntegerBox number;
     public DoubleBox square;
+    public CabinetTypeEditor type;
     public Button save;
 
     BuildingServiceAsync buildingService = GWT.create(BuildingService.class);
@@ -40,10 +43,12 @@ public class CabinetEditor extends DTOEditor<CabinetDTO> implements ClickHandler
         super(callback);
         number = new IntegerBox();
         square = new DoubleBox();
+        type = new CabinetTypeEditor();
         save = new Button("Сохранить");
         save.addClickHandler(this);
         add(number);
         add(square);
+        add(type);
         add(save);
     }
 

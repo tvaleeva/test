@@ -68,6 +68,7 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
             floor = floorRepository.findOne(f.getId());
         }
         FloorTransformer transformer = new FloorTransformer();
+        floor.setBuildId(buildRepository.findOne(f.getIdBuild()));
         transformer.updateEntity(f,floor);
         floorRepository.save(floor);
     }
@@ -87,6 +88,11 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
         cabinet.setFloorId(floorRepository.findOne(c.getIdFloor()));
         transformer.updateEntity(c,cabinet);
         cabinetRepository.save(cabinet);
+    }
+
+    @Override
+    public void deleteCabinetDTO(Long id) {
+        cabinetRepository.delete(id);
     }
 
 

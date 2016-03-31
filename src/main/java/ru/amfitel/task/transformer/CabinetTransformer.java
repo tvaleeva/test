@@ -20,8 +20,8 @@ public class CabinetTransformer extends AbstractTransformer <Cabinet,CabinetDTO>
         CabinetDTO c = super.transform(object);
         c.setNumber(object.getNumber());
         c.setSquare(object.getSquare());
-
-
+        c.setType(object.getType());
+        c.setIdFloor(object.getFloorId().getId());
         return c;
     }
 
@@ -30,7 +30,6 @@ public class CabinetTransformer extends AbstractTransformer <Cabinet,CabinetDTO>
         super.updateEntity(dto, entity);
         entity.setNumber(dto.getNumber());
         entity.setSquare(dto.getSquare());
-
-        //TODO добавить остальные поля
+        entity.setType(dto.getType());
     }
 }

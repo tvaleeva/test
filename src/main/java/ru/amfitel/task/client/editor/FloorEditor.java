@@ -26,6 +26,8 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
 
     public IntegerBox countCabinet;
 
+    public FloorTypeEditor type;
+
     public Button save;
 
     @Override
@@ -46,11 +48,13 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
         super(callback);
         number = new IntegerBox();
         countCabinet = new IntegerBox();
+        type = new FloorTypeEditor();
         save = new Button("Сохранить");
         save.addClickHandler(this);
 
         add(number);
         add(countCabinet);
+        add(type);
         add(save);
     }
 

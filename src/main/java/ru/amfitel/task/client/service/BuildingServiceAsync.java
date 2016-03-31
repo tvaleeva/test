@@ -16,4 +16,6 @@ public interface BuildingServiceAsync {
     void saveFloorDTO(FloorDTO f, AsyncCallback<Void> async);
 
     void saveCabinetDTO(CabinetDTO c, AsyncCallback<Void> async);
+
+    void deleteCabinetDTO(Long id, AsyncCallback<Void> async);
 }

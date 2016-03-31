@@ -1,6 +1,7 @@
 package ru.amfitel.task.client.dto;
 
-import java.util.Date;
+import ru.amfitel.task.client.dictionary.FloorType;
+
 import java.util.List;
 
 /**
@@ -15,9 +16,9 @@ public class FloorDTO extends AbstractDTO {
 
     private Float square;
 
-    private BuildDTO idBuild;
+    private Long idBuild;
 
-
+    private FloorType type;
 
     private List<CabinetDTO> cabinets;
 
@@ -45,15 +46,21 @@ public class FloorDTO extends AbstractDTO {
         this.square = square;
     }
 
-    public BuildDTO getIdBuild() {
+    public Long getIdBuild() {
         return idBuild;
     }
 
-    public void setIdBuild(BuildDTO idBuild) {
+    public void setIdBuild(Long idBuild) {
         this.idBuild = idBuild;
     }
 
+    public FloorType getType() {
+        return type;
+    }
 
+    public void setType(FloorType type) {
+        this.type = type;
+    }
 
     public List<CabinetDTO> getCabinets() {
         return cabinets;

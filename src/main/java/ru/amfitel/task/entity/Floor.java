@@ -1,5 +1,8 @@
 package ru.amfitel.task.entity;
 
+import ru.amfitel.task.client.dictionary.FloorType;
+import ru.amfitel.task.client.dictionary.Material;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -8,8 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "floor")
-@SequenceGenerator(name = "default_gen", sequenceName = "id_cabinet_seq", allocationSize = 1)
-//TODO
+@SequenceGenerator(name = "default_gen", sequenceName = "id_floor_seq", allocationSize = 1)
 public class Floor extends AbstractEntity {
 
 
@@ -30,7 +32,9 @@ public class Floor extends AbstractEntity {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "floorId", cascade = CascadeType.ALL)
     private List<Cabinet> cabinets;
 
-
+    @Column(name = "type")
+    @Enumerated
+    private FloorType type;
 
     public Integer getCountCabinet() {
         return countCabinet;
@@ -70,5 +74,13 @@ public class Floor extends AbstractEntity {
 
     public void setCabinets(List<Cabinet> cabinets) {
         this.cabinets = cabinets;
+    }
+
+    public FloorType getType() {
+        return type;
+    }
+
+    public void setType(FloorType type) {
+        this.type = type;
     }
 }
