@@ -21,7 +21,7 @@
         <property name="driverClass" value="org.postgresql.Driver"/>
         <property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/postgres"/>
         <property name="user" value="postgres"/>
-        <property name="password" value="nfnfhcrbq"/>
+        <property name="password" value="root"/>
         <property name="maxPoolSize" value="50"/>
         <property name="initialPoolSize" value="1"/>
         <property name="minPoolSize" value="1"/>
@@ -65,9 +65,11 @@
     </security:authentication-manager>
     <bean id="userDetailsService" class="ru.amfitel.task.server.UserDetailsServiceImpl"/>
 
-    <security:http>
-        <security:http-basic/>
+    <security:http auto-config="true">
+        <security:intercept-url pattern="/application/springGwtServlet/*" access="isAuthenticated()" method="POST"/>
         <security:intercept-url pattern="/**" access="isAuthenticated()"/>
+        <security:logout logout-url="/logout" invalidate-session="true" delete-cookies="true"/>
+        <security:csrf disabled="true"/>
     </security:http>
 
 </beans>
