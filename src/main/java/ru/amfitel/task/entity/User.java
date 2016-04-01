@@ -9,7 +9,7 @@ import javax.persistence.Table;
  * Created by Bublik on 31.03.2016.
  */
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @SequenceGenerator(name = "default_gen", sequenceName = "id_user_seq", allocationSize = 1)
 public class User extends AbstractEntity {
 

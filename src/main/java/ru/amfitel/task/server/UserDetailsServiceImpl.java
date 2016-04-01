@@ -21,16 +21,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
-    //TEST
 
-    @Autowired
-    private BuildRepository buildRepository;
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
        Set roles =  Collections.singleton(new SimpleGrantedAuthority("ROLE"));
-        User user = userRepository.findOne(1l);
+        User user = userRepository.findByName(username);
         UserDetails userDetails =
                 new org.springframework.security.core.userdetails.User(user.getName(),
                         user.getPassword(), roles );

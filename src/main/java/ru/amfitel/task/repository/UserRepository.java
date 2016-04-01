@@ -10,7 +10,7 @@ import ru.amfitel.task.entity.User;
  */
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    //@Query("select u from User u where u.name=:name")
-    //User findByName(@Param("name") String name);
+    @Query("select u from User u where u.name=:name")
+    User findByName(@Param("name") String name);
 
 }
