@@ -26,10 +26,8 @@
 
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/**</url-pattern>
     </filter-mapping>
-
-
 
     <servlet>
         <servlet-name>springGwtServlet</servlet-name>
@@ -39,9 +37,5 @@
         <servlet-name>springGwtServlet</servlet-name>
         <url-pattern>/application/springGwtServlet/*</url-pattern>
     </servlet-mapping>
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/**</url-pattern>
-    </filter-mapping>
 
 </web-app>
