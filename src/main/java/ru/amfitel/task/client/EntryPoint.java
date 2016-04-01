@@ -49,6 +49,7 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
         final Tree tree = new Tree();
         redrawTree(tree);
         left.add(tree);
+
         final FailureIgnoreCallback<Void> callback = new FailureIgnoreCallback<Void>() {
 
             @Override
@@ -100,7 +101,7 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
 
                                     //вызвать сервис удалить кабинет с id c.getId
 
-//                                    buildingService.deleteCabinetDTO( c.getId(),  new  FailureIgnoreCallback<Void>() {
+//                                    buildingService.deleteCabinet( c.getId(),  new  FailureIgnoreCallback<Void>() {
 //                                        @Override
 //                                        public void onSuccess(Void aVoid) {
 //                                            refreshTree(tree);

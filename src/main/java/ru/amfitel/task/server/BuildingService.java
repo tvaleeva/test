@@ -92,13 +92,19 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
     }
 
     @Override
-    public void deleteCabinetDTO(Long id) {
+    public void deleteCabinet(Long id) {
         cabinetRepository.delete(id);
     }
 
     @Override
     public void deleteBuild(Long id) {
         buildRepository.delete(id);
+    }
+
+    @Override
+    public void deleteFloor(Long id) {
+        floorRepository.delete(id);
+
     }
 
 

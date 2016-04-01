@@ -25,6 +25,7 @@ public class CabinetEditor extends DTOEditor<CabinetDTO> implements ClickHandler
     public DoubleBox square;
     public CabinetTypeEditor type;
     public Button save;
+    public Button deleteButton;
 
     BuildingServiceAsync buildingService = GWT.create(BuildingService.class);
 
@@ -46,16 +47,24 @@ public class CabinetEditor extends DTOEditor<CabinetDTO> implements ClickHandler
         type = new CabinetTypeEditor();
         save = new Button("Сохранить");
         save.addClickHandler(this);
+        deleteButton = new Button("Удалить");
         add(number);
         add(square);
         add(type);
         add(save);
+        add(deleteButton);
     }
 
     @Override
     public void edit(CabinetDTO object) {
         driver.initialize(this);
         driver.edit(object);
+        deleteButton.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent clickEvent) {
+                buildingService.deleteCabinet(object.getId(),callback);
+            }
+        });
 
     }
 

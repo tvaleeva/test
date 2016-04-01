@@ -30,11 +30,12 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
 
     public Button save;
 
+    public Button deleteButton;
+
     @Override
     public void onClick(ClickEvent clickEvent) {
         FloorDTO floatDto = driver.flush();
         buildingService.saveFloorDTO(floatDto,callback);
-
     }
 
 
@@ -50,12 +51,15 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
         countCabinet = new IntegerBox();
         type = new FloorTypeEditor();
         save = new Button("Сохранить");
+        deleteButton = new Button("Удалить");
         save.addClickHandler(this);
+
 
         add(number);
         add(countCabinet);
         add(type);
         add(save);
+        add(deleteButton);
     }
 
 
@@ -64,6 +68,12 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
 
         driver.initialize(this);
         driver.edit(object);
+        deleteButton.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent clickEvent) {
+                buildingService.deleteFloor(object.getId(),callback);
+            }
+        });
     }
 
     private IntegerBox number(){
