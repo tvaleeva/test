@@ -19,6 +19,9 @@ public class User extends AbstractEntity {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "non_blocked")
+    private Boolean nonBlocked;
+
     public String getName() {
         return name;
     }
@@ -33,5 +36,13 @@ public class User extends AbstractEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getNonBlocked() {
+        return nonBlocked;
+    }
+
+    public void setNonBlocked(Boolean nonBlocked) {
+        this.nonBlocked = nonBlocked;
     }
 }

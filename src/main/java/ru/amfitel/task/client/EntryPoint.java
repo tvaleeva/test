@@ -43,6 +43,9 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
         RootPanel.get().add(panel);
         left = new VerticalPanel();
         right = new VerticalPanel();
+        Anchor a = new Anchor("logout");
+        a.setHref("/logout");
+        left.add(a);
         panel.add(left);
         panel.add(right);
 

@@ -56,6 +56,7 @@
         <property name="userDetailsService" ref="userDetailsService"/>
 
             </bean>
+    <bean id="authenticationFailureListener" class="ru.amfitel.task.server.AuthenticationFailureListener"/>
 
     <security:authentication-manager alias="authenticationManager">
 
