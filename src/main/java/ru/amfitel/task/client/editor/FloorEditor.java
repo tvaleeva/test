@@ -64,7 +64,7 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
 
 
     @Override
-    public void edit(FloorDTO object) {
+    public void edit(final FloorDTO object) {
 
         driver.initialize(this);
         driver.edit(object);

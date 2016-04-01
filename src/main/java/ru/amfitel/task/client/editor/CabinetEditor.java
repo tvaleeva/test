@@ -56,7 +56,7 @@ public class CabinetEditor extends DTOEditor<CabinetDTO> implements ClickHandler
     }
 
     @Override
-    public void edit(CabinetDTO object) {
+    public void edit(final CabinetDTO object) {
         driver.initialize(this);
         driver.edit(object);
         deleteButton.addClickHandler(new ClickHandler() {
