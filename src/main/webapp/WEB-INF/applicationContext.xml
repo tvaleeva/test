@@ -65,10 +65,9 @@
     </security:authentication-manager>
     <bean id="userDetailsService" class="ru.amfitel.task.server.UserDetailsServiceImpl"/>
 
-
     <security:http>
         <security:http-basic/>
-        <security:intercept-url pattern="/application/**" access="isAuthenticated()"/>
-        <security:intercept-url pattern="/**" access="isAnonymous()"/>
+        <security:intercept-url pattern="/**" access="isAuthenticated()"/>
     </security:http>
+
 </beans>
