@@ -16,6 +16,7 @@ public class LoginAttempt extends AbstractEntity  {
     private User id_user;
 
     @Column(name = "time")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date time;
 
     public User getId_user() {

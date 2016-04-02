@@ -3,6 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:jee="http://www.springframework.org/schema/jee"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
          http://www.springframework.org/schema/data/jpa
@@ -10,7 +11,8 @@
            http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context.xsd
               http://www.springframework.org/schema/security
-              http://www.springframework.org/schema/security/spring-security.xsd">
+              http://www.springframework.org/schema/security/spring-security.xsd
+               http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
     <jpa:repositories base-package="ru.amfitel.task.repository"/>
 
@@ -58,6 +60,12 @@
             </bean>
     <bean id="authenticationFailureListener" class="ru.amfitel.task.server.AuthenticationFailureListener"/>
 
+
+    <jee:jndi-lookup id="maxExemptions" jndi-name="java:comp/env/maxExemptions"/>
+
+
+
+
     <security:authentication-manager alias="authenticationManager">
 
         <security:authentication-provider ref="daoAuthenticationProvider"/>
@@ -72,5 +80,7 @@
         <security:logout logout-url="/logout" invalidate-session="true" delete-cookies="true"/>
         <security:csrf disabled="true"/>
     </security:http>
+
+
 
 </beans>

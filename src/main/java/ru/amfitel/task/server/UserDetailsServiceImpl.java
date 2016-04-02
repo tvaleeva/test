@@ -1,6 +1,10 @@
 package ru.amfitel.task.server;
 
+import org.hibernate.annotations.Type;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Lookup;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,28 +28,32 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     LoginAttemptRepository loginAttempt;
 
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByName(username);
 
+    private Integer maxExemptions;
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        User user = userRepository.findByName(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("can't find user", new Throwable());
+        }
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DATE, -1);
+
         Integer countFailAttempt = loginAttempt.countFailAttempt(user.getId(), cal.getTime());
-        Boolean status = true;
-        if (countFailAttempt >= 4) {
-            status = false;
-        }
-        user.setNonBlocked(status);
+
+        Boolean blocked = (countFailAttempt >= maxExemptions) ? true : false;
+        user.setNonBlocked(blocked);
         //подсчитать кол-во попыток
         //обновить статус user
         userRepository.save(user);
 
 
-        //передаем статус
         UserDetails userDetails =
                 new org.springframework.security.core.userdetails.User(user.getName(),
-                        user.getPassword(), true, true, true, status, Collections.emptySet());
+                        user.getPassword(), true, true, true, !blocked, Collections.emptySet());
 
         return userDetails;
     }
