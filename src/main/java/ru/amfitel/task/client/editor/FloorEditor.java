@@ -59,7 +59,7 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
         add(countCabinet);
         add(type);
         add(save);
-        add(deleteButton);
+
     }
 
 
@@ -74,6 +74,8 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
                 buildingService.deleteFloor(object.getId(),callback);
             }
         });
+        if (object.getId()!=null)
+            add(deleteButton);
     }
 
     private IntegerBox number(){

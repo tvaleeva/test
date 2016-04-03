@@ -52,7 +52,7 @@ public class CabinetEditor extends DTOEditor<CabinetDTO> implements ClickHandler
         add(square);
         add(type);
         add(save);
-        add(deleteButton);
+
     }
 
     @Override
@@ -65,6 +65,8 @@ public class CabinetEditor extends DTOEditor<CabinetDTO> implements ClickHandler
                 buildingService.deleteCabinet(object.getId(),callback);
             }
         });
+        if(object.getId()!=null)
+            add(deleteButton);
 
     }
 

@@ -19,20 +19,16 @@ import ru.amfitel.task.client.service.BuildingServiceAsync;
 
 public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
 
-    BuildingServiceAsync buildingService = GWT.create(BuildingService.class);
     public TextBox name;
     public DateBox date;
     public TextBox address;
     public IntegerBox countFloor;
     public MaterialEditor material;
-
     public Button saveButton;
     public Button deleteButton;
+    BuildingServiceAsync buildingService = GWT.create(BuildingService.class);
     // Create the Driver
     Driver driver = GWT.create(Driver.class);
-
-    interface Driver extends SimpleBeanEditorDriver<BuildDTO, BuildEditor> {
-    }
 
     public BuildEditor(AsyncCallback<Void> callback) {
         super(callback);
@@ -54,7 +50,8 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
         add(countFloor);
         add(material);
         add(saveButton);
-        add(deleteButton);
+
+
     }
 
     @Override
@@ -71,9 +68,11 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
         deleteButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                buildingService.deleteBuild(p.getId(),callback);
+                buildingService.deleteBuild(p.getId(), callback);
             }
         });
+        if (p.getId() != null)
+            add(deleteButton);
     }
 
     public TextBox name() {
@@ -90,6 +89,9 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
 
     public IntegerBox countFloor() {
         return countFloor;
+    }
+
+    interface Driver extends SimpleBeanEditorDriver<BuildDTO, BuildEditor> {
     }
 }
 

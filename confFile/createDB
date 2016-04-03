@@ -1,0 +1,47 @@
+CREATE TABLE build
+(
+    id INTEGER PRIMARY KEY NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    date DATE,
+    count_floor INTEGER,
+    name VARCHAR(255),
+    material VARCHAR(255)
+);
+CREATE TABLE cabinet
+(
+    id INTEGER PRIMARY KEY NOT NULL,
+    number INTEGER,
+    square DOUBLE PRECISION,
+    type INTEGER,
+    floor_id INTEGER
+);
+
+CREATE TABLE floor
+(
+    id INTEGER PRIMARY KEY NOT NULL,
+    number INTEGER,
+    count_cabinet INTEGER,
+    square DOUBLE PRECISION,
+    type VARCHAR(255),
+    id_build INTEGER
+);
+
+CREATE TABLE user_log
+(
+    id_user BIGINT NOT NULL,
+    id BIGINT NOT NULL,
+    time TIMESTAMP PRIMARY KEY
+);
+CREATE TABLE users
+(
+    name VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    id BIGINT PRIMARY KEY NOT NULL,
+    non_blocked BOOLEAN DEFAULT false
+);
+ALTER TABLE cabinet ADD FOREIGN KEY (type) REFERENCES cabinet_type (id);
+ALTER TABLE cabinet ADD FOREIGN KEY (floor_id) REFERENCES ;
+ALTER TABLE floor ADD FOREIGN KEY (id_build) REFERENCES build (id);
+CREATE INDEX floor_type_id_index ON floor_type (id);
+ALTER TABLE user_log ADD FOREIGN KEY (id) REFERENCES users (id);
+CREATE INDEX users_id_index ON users (id);
