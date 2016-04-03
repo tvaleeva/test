@@ -1,6 +1,9 @@
 package ru.amfitel.task.client.editor;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.editor.client.Editor;
+import com.google.gwt.event.dom.client.DragStartHandler;
+import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import ru.amfitel.task.client.dto.AbstractDTO;
@@ -18,5 +21,6 @@ public abstract class DTOEditor<D extends AbstractDTO> extends VerticalPanel imp
     }
 
     public abstract void edit(D object);
+
 
 }

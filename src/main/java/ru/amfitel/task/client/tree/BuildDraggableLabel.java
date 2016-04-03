@@ -8,10 +8,10 @@ import ru.amfitel.task.client.editor.DTOEditor;
 /**
  * Created by Bublik on 28.03.2016.
  */
-public class BuildItem extends AbstractTreeItem<BuildDTO> {
+public class BuildDraggableLabel extends DraggableLabel<BuildDTO> {
 
 
-    public BuildItem(BuildDTO object) {
+    public BuildDraggableLabel(BuildDTO object) {
         super(object);
     }
 

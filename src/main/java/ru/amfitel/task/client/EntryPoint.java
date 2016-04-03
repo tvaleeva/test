@@ -5,7 +5,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import ru.amfitel.task.client.callback.FailureIgnoreCallback;
 import ru.amfitel.task.client.dto.BuildDTO;
@@ -17,10 +16,10 @@ import ru.amfitel.task.client.editor.DTOEditor;
 import ru.amfitel.task.client.editor.FloorEditor;
 import ru.amfitel.task.client.service.BuildingService;
 import ru.amfitel.task.client.service.BuildingServiceAsync;
-import ru.amfitel.task.client.tree.AbstractTreeItem;
-import ru.amfitel.task.client.tree.BuildItem;
-import ru.amfitel.task.client.tree.CabinetItem;
-import ru.amfitel.task.client.tree.FloorItem;
+import ru.amfitel.task.client.tree.DraggableLabel;
+import ru.amfitel.task.client.tree.BuildDraggableLabel;
+import ru.amfitel.task.client.tree.CabinetDraggableLabel;
+import ru.amfitel.task.client.tree.FloorDraggableLabel;
 
 import java.util.List;
 
@@ -66,9 +65,11 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
             @Override
             public void onSelection(SelectionEvent<TreeItem> selectionEvent) {
 
-                AbstractTreeItem item = (AbstractTreeItem) selectionEvent.getSelectedItem();
-                DTOEditor editor = item.getEditor(callback);
-                editor.edit(item.getObject());
+
+                TreeItem item = selectionEvent.getSelectedItem();
+                DraggableLabel label = (DraggableLabel)item.getWidget();
+                DTOEditor editor = label.getEditor(callback);
+                editor.edit(label.getObject());
                 right.clear();
                 right.add(editor);
             }
@@ -85,16 +86,20 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
             public void onSuccess(List<BuildDTO> buildDTOs) {
                 //реакция дерева на сохранение объекта
                 for (final BuildDTO b : buildDTOs) {
-                    BuildItem buildItem = new BuildItem(b);
+                    TreeItem buildItem = new TreeItem(new BuildDraggableLabel(b));
+
 
 
                     for (final FloorDTO f : b.getFloors()) {
-                        FloorItem floorItem = new FloorItem(f);
 
-                       buildItem.addItem(floorItem);
+
+                        TreeItem floorItem = new TreeItem(new FloorDraggableLabel(f));
+                        buildItem.addItem(floorItem);
 
                         for (CabinetDTO c : f.getCabinets()) {
-                            CabinetItem cabinetItem = new CabinetItem(c);
+                            TreeItem cabinetItem = new TreeItem(new CabinetDraggableLabel(c));
+
+
                            floorItem.addItem(cabinetItem);
                             Button deleteCabinetButton = new Button("удалить каб");
                             cabinetItem.addItem(deleteCabinetButton);

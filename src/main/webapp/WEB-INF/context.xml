@@ -19,7 +19,7 @@
 <Context>
 <ResourceLink name="maxExemptions"
    global="maxExemptions"
-   type="java.lang.Integer"/>
+   type="java.lang.Integer" value="5"/>
 
     <!-- Default set of monitored resources. If one of these changes, the    -->
     <!-- web application will be reloaded.                                   -->

@@ -57,22 +57,20 @@
           class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
         <property name="userDetailsService" ref="userDetailsService"/>
 
-            </bean>
+    </bean>
     <bean id="authenticationFailureListener" class="ru.amfitel.task.server.AuthenticationFailureListener"/>
 
 
-    <jee:jndi-lookup id="maxExemptions" jndi-name="java:comp/env/maxExemptions"/>
-
-
+    <jee:jndi-lookup id="maxExemptions" jndi-name="maxExemptions"/>
 
 
     <security:authentication-manager alias="authenticationManager">
-
         <security:authentication-provider ref="daoAuthenticationProvider"/>
-
-
     </security:authentication-manager>
-    <bean id="userDetailsService" class="ru.amfitel.task.server.UserDetailsServiceImpl"/>
+
+    <bean id="userDetailsService" class="ru.amfitel.task.server.UserDetailsServiceImpl">
+        <property name="maxExemptions" ref="maxExemptions"/>
+    </bean>
 
     <security:http auto-config="true">
         <security:intercept-url pattern="/application/springGwtServlet/*" access="isAuthenticated()" method="POST"/>
@@ -80,7 +78,6 @@
         <security:logout logout-url="/logout" invalidate-session="true" delete-cookies="true"/>
         <security:csrf disabled="true"/>
     </security:http>
-
 
 
 </beans>

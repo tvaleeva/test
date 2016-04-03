@@ -57,4 +57,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return userDetails;
     }
+
+    public Integer getMaxExemptions() {
+        return maxExemptions;
+    }
+
+    public void setMaxExemptions(Integer maxExemptions) {
+        this.maxExemptions = maxExemptions;
+    }
 }

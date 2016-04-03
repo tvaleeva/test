@@ -9,8 +9,8 @@ import ru.amfitel.task.client.editor.FloorEditor;
  * @author tvaleeva
  * @since 30.03.2016
  */
-public class FloorItem extends AbstractTreeItem<FloorDTO> {
-    public FloorItem(FloorDTO object) {
+public class FloorDraggableLabel extends DraggableLabel<FloorDTO> {
+    public FloorDraggableLabel(FloorDTO object) {
         super(object);
     }
 
