@@ -1,6 +1,9 @@
 package ru.amfitel.task.client.tree;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import ru.amfitel.task.client.dictionary.ObjectType;
+import ru.amfitel.task.client.dto.CabinetDTO;
 import ru.amfitel.task.client.dto.FloorDTO;
 import ru.amfitel.task.client.editor.DTOEditor;
 import ru.amfitel.task.client.editor.FloorEditor;
@@ -10,12 +13,25 @@ import ru.amfitel.task.client.editor.FloorEditor;
  * @since 30.03.2016
  */
 public class FloorDraggableLabel extends DraggableLabel<FloorDTO> {
-    public FloorDraggableLabel(FloorDTO object) {
-        super(object);
+
+    public FloorDraggableLabel(FloorDTO object, AsyncCallback<Void> redrawCallback) {
+        super(object, redrawCallback);
     }
 
     @Override
-    public DTOEditor getEditor(AsyncCallback<Void> callback) {
-        return  new FloorEditor(callback);
+    public DTOEditor getEditor() {
+        return  new FloorEditor(redrawCallback);
+    }
+
+    @Override
+    protected boolean isDroppable() {
+        return dragging.getObject().getObjectType()== ObjectType.CABINET;
+    }
+
+    @Override
+    protected void processDrop() {
+        CabinetDTO cabinet = (CabinetDTO) dragging.getObject();
+        cabinet.setIdFloor(getObject().getId());
+        buildingService.saveCabinetDTO(cabinet,redrawCallback);
     }
 }

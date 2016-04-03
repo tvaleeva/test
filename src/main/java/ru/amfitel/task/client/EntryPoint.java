@@ -35,6 +35,16 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
     VerticalPanel left;
     VerticalPanel right;
 
+    final Tree tree = new Tree();
+    final FailureIgnoreCallback<Void> callback = new FailureIgnoreCallback<Void>() {
+
+        @Override
+        public void onSuccess(Void aVoid) {
+            //в случае успеха перерисуем дерево
+            refreshTree(tree);
+        }
+    };
+
 
     public void onModuleLoad() {
 
@@ -48,18 +58,10 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
         panel.add(left);
         panel.add(right);
 
-        final Tree tree = new Tree();
         redrawTree(tree);
         left.add(tree);
 
-        final FailureIgnoreCallback<Void> callback = new FailureIgnoreCallback<Void>() {
 
-            @Override
-            public void onSuccess(Void aVoid) {
-                //в случае успеха перерисуем дерево
-                refreshTree(tree);
-            }
-        };
 
         tree.addSelectionHandler(new SelectionHandler<TreeItem>() {
             @Override
@@ -68,7 +70,7 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
 
                 TreeItem item = selectionEvent.getSelectedItem();
                 DraggableLabel label = (DraggableLabel)item.getWidget();
-                DTOEditor editor = label.getEditor(callback);
+                DTOEditor editor = label.getEditor();
                 editor.edit(label.getObject());
                 right.clear();
                 right.add(editor);
@@ -86,18 +88,18 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
             public void onSuccess(List<BuildDTO> buildDTOs) {
                 //реакция дерева на сохранение объекта
                 for (final BuildDTO b : buildDTOs) {
-                    TreeItem buildItem = new TreeItem(new BuildDraggableLabel(b));
+                    TreeItem buildItem = new TreeItem(new BuildDraggableLabel(b,callback ));
 
 
 
                     for (final FloorDTO f : b.getFloors()) {
 
 
-                        TreeItem floorItem = new TreeItem(new FloorDraggableLabel(f));
+                        TreeItem floorItem = new TreeItem(new FloorDraggableLabel(f, callback));
                         buildItem.addItem(floorItem);
 
                         for (CabinetDTO c : f.getCabinets()) {
-                            TreeItem cabinetItem = new TreeItem(new CabinetDraggableLabel(c));
+                            TreeItem cabinetItem = new TreeItem(new CabinetDraggableLabel(c, callback));
 
 
                            floorItem.addItem(cabinetItem);

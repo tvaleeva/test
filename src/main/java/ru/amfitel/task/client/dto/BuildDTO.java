@@ -2,6 +2,7 @@ package ru.amfitel.task.client.dto;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import ru.amfitel.task.client.dictionary.Material;
+import ru.amfitel.task.client.dictionary.ObjectType;
 
 import java.util.Date;
 import java.util.List;
@@ -70,6 +71,11 @@ public class BuildDTO extends AbstractDTO {
 
     public void setFloors(List<FloorDTO> floors) {
         this.floors = floors;
+    }
+
+    @Override
+    public ObjectType getObjectType(){
+        return ObjectType.BUILDING;
     }
 
     @Override

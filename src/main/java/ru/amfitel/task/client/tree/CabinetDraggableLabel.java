@@ -10,12 +10,22 @@ import ru.amfitel.task.client.editor.DTOEditor;
  * @since 30.03.2016
  */
 public class CabinetDraggableLabel extends DraggableLabel<CabinetDTO> {
-    public CabinetDraggableLabel(CabinetDTO object) {
-        super(object);
+    public CabinetDraggableLabel(CabinetDTO object, AsyncCallback<Void> redrawCallback) {
+        super(object, redrawCallback);
     }
 
     @Override
-    public DTOEditor getEditor(AsyncCallback<Void> callback) {
-        return new CabinetEditor(callback);
+    public DTOEditor getEditor() {
+        return new CabinetEditor(redrawCallback);
+    }
+
+    @Override
+    protected boolean isDroppable() {
+        return false;
+    }
+
+    @Override
+    protected void processDrop() {
+        //do nothing
     }
 }

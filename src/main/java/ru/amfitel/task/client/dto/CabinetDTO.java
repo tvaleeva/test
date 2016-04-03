@@ -1,6 +1,7 @@
 package ru.amfitel.task.client.dto;
 
 import ru.amfitel.task.client.dictionary.CabinetType;
+import ru.amfitel.task.client.dictionary.ObjectType;
 import ru.amfitel.task.entity.Floor;
 
 /**
@@ -52,5 +53,11 @@ public class CabinetDTO extends AbstractDTO {
     @Override
     public String toString() {
         return getNumber()+"";
+    }
+
+
+    @Override
+    public ObjectType getObjectType() {
+        return ObjectType.CABINET;
     }
 }

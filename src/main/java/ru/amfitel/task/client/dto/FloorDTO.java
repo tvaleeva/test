@@ -1,6 +1,7 @@
 package ru.amfitel.task.client.dto;
 
 import ru.amfitel.task.client.dictionary.FloorType;
+import ru.amfitel.task.client.dictionary.ObjectType;
 
 import java.util.List;
 
@@ -73,5 +74,10 @@ public class FloorDTO extends AbstractDTO {
     @Override
     public String toString() {
         return  getNumber()+"/ " +getCountCabinet();
+    }
+
+    @Override
+    public ObjectType getObjectType() {
+        return ObjectType.FLOOR;
     }
 }
