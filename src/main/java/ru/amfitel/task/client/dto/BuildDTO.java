@@ -82,6 +82,7 @@ public class BuildDTO extends AbstractDTO {
     public String toString() {
 
 
-        return getName() + "/ " + DateTimeFormat.getFormat("dd.M.y").format(getDate()) + "/ " +getAddress()+"/ "+ getMaterial().getName();
+        return "Название:"+getName() + "/ Дата постройки:" + DateTimeFormat.getFormat("dd.M.y").format(getDate()) + "/ Адрес:"
+                +getAddress()+"/ Материал:"+ getMaterial().getName();
     }
 }
