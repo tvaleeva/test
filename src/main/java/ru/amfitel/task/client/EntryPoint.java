@@ -103,25 +103,8 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
 
 
                            floorItem.addItem(cabinetItem);
-                            Button deleteCabinetButton = new Button("удалить каб");
-                            cabinetItem.addItem(deleteCabinetButton);
-                            deleteCabinetButton.addClickHandler(new ClickHandler() {
-                                @Override
-                                public void onClick(ClickEvent clickEvent) {
-
-                                    //вызвать сервис удалить кабинет с id c.getId
-
-//                                    buildingService.deleteCabinet( c.getId(),  new  FailureIgnoreCallback<Void>() {
-//                                        @Override
-//                                        public void onSuccess(Void aVoid) {
-//                                            refreshTree(tree);
-//                                        }
-//                                    });
-
-                                }
-                            });
                         }
-                        Button newCabinetButton = new Button("+ каб");
+                        Button newCabinetButton = new Button("+ кабинет");
                         newCabinetButton.addClickHandler(new ClickHandler() {
                             @Override
                             public void onClick(ClickEvent event) {
@@ -141,7 +124,7 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                         });
                         floorItem.addItem(newCabinetButton);
                     }
-                    Button newFloorButton = new Button("+ эт");
+                    Button newFloorButton = new Button("+ этаж");
                     buildItem.addItem(newFloorButton);
                     newFloorButton.addClickHandler(new ClickHandler() {
                         @Override
