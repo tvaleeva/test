@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import ru.amfitel.task.client.callback.DeleteCallback;
 import ru.amfitel.task.client.dictionary.CabinetType;
 import ru.amfitel.task.client.dto.CabinetDTO;
 import ru.amfitel.task.client.service.BuildingService;
@@ -40,8 +41,8 @@ public class CabinetEditor extends DTOEditor<CabinetDTO> implements ClickHandler
 
      }
     Driver driver = GWT.create(Driver.class);
-    public CabinetEditor(AsyncCallback<Void> callback) {
-        super(callback);
+    public CabinetEditor(AsyncCallback<CabinetDTO> callback, DeleteCallback deleteCallback) {
+        super(callback, deleteCallback);
         labelNumber = new Label("№ кабинета: ");
         labelSquare = new Label("Площадь: ");
         labelType = new Label("Тип: ");
@@ -68,7 +69,7 @@ public class CabinetEditor extends DTOEditor<CabinetDTO> implements ClickHandler
         deleteButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent clickEvent) {
-                buildingService.deleteCabinet(object.getId(),callback);
+                buildingService.deleteCabinet(object.getId(),deleteCallback);
             }
         });
         if(object.getId()!=null)

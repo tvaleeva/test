@@ -15,10 +15,10 @@ import java.util.List;
 public interface BuildingService extends RemoteService {
 
     List<BuildDTO> loadBuildings();
-    void saveBuildDTO(BuildDTO b);
-    void saveFloorDTO(FloorDTO f);
-    void saveCabinetDTO(CabinetDTO c);
-    void deleteCabinet(Long id);
-    void deleteBuild(Long id);
-    void deleteFloor(Long id);
+    BuildDTO saveBuildDTO(BuildDTO b);
+    FloorDTO saveFloorDTO(FloorDTO f);
+    CabinetDTO saveCabinetDTO(CabinetDTO c);
+    CabinetDTO deleteCabinet(Long id);
+    BuildDTO deleteBuild(Long id);
+    FloorDTO deleteFloor(Long id);
 }

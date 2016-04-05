@@ -4,6 +4,7 @@ import ru.amfitel.task.client.dictionary.FloorType;
 import ru.amfitel.task.client.dictionary.Material;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,6 +70,9 @@ public class Floor extends AbstractEntity {
     }
 
     public List<Cabinet> getCabinets() {
+        if (cabinets == null) {
+            cabinets = new ArrayList<>();
+        }
         return cabinets;
     }
 

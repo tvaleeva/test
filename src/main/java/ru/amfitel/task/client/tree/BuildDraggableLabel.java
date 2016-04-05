@@ -2,7 +2,9 @@ package ru.amfitel.task.client.tree;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import ru.amfitel.task.client.callback.DeleteCallback;
 import ru.amfitel.task.client.dictionary.ObjectType;
+import ru.amfitel.task.client.dto.AbstractDTO;
 import ru.amfitel.task.client.dto.BuildDTO;
 import ru.amfitel.task.client.dto.FloorDTO;
 import ru.amfitel.task.client.editor.BuildEditor;
@@ -14,13 +16,14 @@ import ru.amfitel.task.entity.Floor;
  */
 public class BuildDraggableLabel extends DraggableLabel<BuildDTO> {
 
-    public BuildDraggableLabel(BuildDTO object, AsyncCallback<Void> redrawCallback) {
-        super(object, redrawCallback);
+
+    public BuildDraggableLabel(BuildDTO object, AsyncCallback<BuildDTO> redrawCallback, DeleteCallback deleteCallback) {
+        super(object, redrawCallback, deleteCallback);
     }
 
     @Override
     public DTOEditor getEditor() {
-        return new BuildEditor(redrawCallback);
+        return new BuildEditor(redrawCallback, deleteCallback);
     }
 
     @Override
@@ -32,7 +35,7 @@ public class BuildDraggableLabel extends DraggableLabel<BuildDTO> {
     protected void processDrop() {
         FloorDTO floor = (FloorDTO) dragging.getObject();
         floor.setIdBuild(this.getObject().getId());
-        buildingService.saveFloorDTO(floor, redrawCallback );
+        //buildingService.saveFloorDTO(floor, redrawCallback );
 
 
     }

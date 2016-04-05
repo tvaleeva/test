@@ -2,6 +2,7 @@ package ru.amfitel.task.client.tree;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import ru.amfitel.task.client.callback.DeleteCallback;
 import ru.amfitel.task.client.dictionary.ObjectType;
 import ru.amfitel.task.client.dto.CabinetDTO;
 import ru.amfitel.task.client.dto.FloorDTO;
@@ -14,13 +15,13 @@ import ru.amfitel.task.client.editor.FloorEditor;
  */
 public class FloorDraggableLabel extends DraggableLabel<FloorDTO> {
 
-    public FloorDraggableLabel(FloorDTO object, AsyncCallback<Void> redrawCallback) {
-        super(object, redrawCallback);
+    public FloorDraggableLabel(FloorDTO object, AsyncCallback<FloorDTO> redrawCallback, DeleteCallback deleteCallback) {
+        super(object, redrawCallback, deleteCallback);
     }
 
     @Override
     public DTOEditor getEditor() {
-        return  new FloorEditor(redrawCallback);
+        return  new FloorEditor(redrawCallback, deleteCallback);
     }
 
     @Override
@@ -30,8 +31,8 @@ public class FloorDraggableLabel extends DraggableLabel<FloorDTO> {
 
     @Override
     protected void processDrop() {
-        CabinetDTO cabinet = (CabinetDTO) dragging.getObject();
-        cabinet.setIdFloor(getObject().getId());
-        buildingService.saveCabinetDTO(cabinet,redrawCallback);
+        //CabinetDTO cabinet = (CabinetDTO) dragging.getObject();
+        //cabinet.setIdFloor(getObject().getId());
+        //buildingService.saveCabinetDTO(cabinet,redrawCallback);
     }
 }

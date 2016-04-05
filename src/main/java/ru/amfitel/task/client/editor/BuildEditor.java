@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
+import ru.amfitel.task.client.callback.DeleteCallback;
 import ru.amfitel.task.client.dto.BuildDTO;
 import ru.amfitel.task.client.service.BuildingService;
 import ru.amfitel.task.client.service.BuildingServiceAsync;
@@ -36,8 +37,8 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
     // Create the Driver
     Driver driver = GWT.create(Driver.class);
 
-    public BuildEditor(AsyncCallback<Void> callback) {
-        super(callback);
+    public BuildEditor(AsyncCallback<BuildDTO> callback, DeleteCallback deleteCallback) {
+        super(callback,deleteCallback);
         labelName = new Label("Название: ");
         labelAddress = new Label("Адрес: ");
         labelMaterial = new Label("Материал: ");
@@ -66,8 +67,6 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
         add(labelCountFloor);
         add(countFloor);
         add(saveButton);
-
-
     }
 
     @Override
@@ -84,7 +83,7 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
         deleteButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                buildingService.deleteBuild(p.getId(), callback);
+                buildingService.deleteBuild(p.getId(), deleteCallback);
             }
         });
         if (p.getId() != null)

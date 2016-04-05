@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import ru.amfitel.task.client.callback.DeleteCallback;
 import ru.amfitel.task.client.dto.FloorDTO;
 import ru.amfitel.task.client.service.BuildingService;
 import ru.amfitel.task.client.service.BuildingServiceAsync;
@@ -47,8 +48,8 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
 
     Driver driver = GWT.create(Driver.class);
 
-    public FloorEditor(AsyncCallback<Void> callback) {
-        super(callback);
+    public FloorEditor(AsyncCallback<FloorDTO> callback, DeleteCallback deleteCallback) {
+        super(callback, deleteCallback);
         labelNumber = new Label("№ этажа: ");
         labelCount = new Label("Кол-во кабинетов: ");
         labelType = new Label("Тип: ");
@@ -78,7 +79,8 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
         deleteButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent clickEvent) {
-                buildingService.deleteFloor(object.getId(),callback);
+
+                buildingService.deleteFloor(object.getId(),deleteCallback);
             }
         });
         if (object.getId()!=null)

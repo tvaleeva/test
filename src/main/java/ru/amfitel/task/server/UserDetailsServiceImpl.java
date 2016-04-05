@@ -44,7 +44,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         Integer countFailAttempt = loginAttempt.countFailAttempt(user.getId(), cal.getTime());
 
-        Boolean blocked = (countFailAttempt >= maxExemptions) ? true : false;
+        Boolean blocked = countFailAttempt >= maxExemptions;
         user.setNonBlocked(blocked);
         //подсчитать кол-во попыток
         //обновить статус user

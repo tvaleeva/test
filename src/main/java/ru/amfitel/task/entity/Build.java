@@ -3,6 +3,7 @@ package ru.amfitel.task.entity;
 import ru.amfitel.task.client.dictionary.Material;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -76,6 +77,9 @@ public class Build extends AbstractEntity {
     }
 
     public List<Floor> getFloors() {
+        if (floors == null) {
+            floors = new ArrayList<>();
+        }
         return floors;
     }
 

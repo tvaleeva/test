@@ -5,6 +5,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
+import ru.amfitel.task.client.callback.DeleteCallback;
 import ru.amfitel.task.client.dto.AbstractDTO;
 import ru.amfitel.task.client.editor.DTOEditor;
 import ru.amfitel.task.client.service.BuildingService;
@@ -16,19 +17,26 @@ import ru.amfitel.task.client.service.BuildingServiceAsync;
 
 
 public abstract class DraggableLabel<O extends AbstractDTO> extends Label implements DragStartHandler, DropHandler, DragOverHandler {
-    AsyncCallback<Void> redrawCallback;
-    BuildingServiceAsync buildingService = GWT.create(BuildingService.class);
+    AsyncCallback<O> redrawCallback;
+    DeleteCallback deleteCallback;
+
     protected static DraggableLabel dragging = null;
     private O object;
 
-    public DraggableLabel(O object, AsyncCallback<Void> redrawCallback) {
-        super(object.toString());
+    public DraggableLabel(O object, AsyncCallback<O> redrawCallback, DeleteCallback deleteCallback) {
+        super();
         this.object = object;
+        this.deleteCallback = deleteCallback;
         this.redrawCallback = redrawCallback;
+        updateText();
         getElement().setDraggable(Element.DRAGGABLE_TRUE);
         addDragStartHandler(this);
         addDragOverHandler(this);
         addDropHandler(this);
+    }
+
+    private void updateText() {
+        setText(object.toString());
     }
 
     //создать нужный эдитор в реализации
@@ -36,6 +44,11 @@ public abstract class DraggableLabel<O extends AbstractDTO> extends Label implem
 
     public O getObject() {
         return object;
+    }
+
+    public  void setObject(O object){
+        this.object=object;
+        updateText();
     }
 
     @Override

@@ -84,7 +84,7 @@ public class BuildDTO extends AbstractDTO {
         return "Название:" + getName() +
                 "/ Адрес:" + getAddress() +
                 "/ Дата постройки:" + DateTimeFormat.getFormat("dd.M.y").format(getDate()) +
-                "/ Материал:" + getMaterial().getName() +
+                "/ Материал:" + (getMaterial() == null ? null : getMaterial().getName()) +
                 "/ Кол-во этажей:" + getCountFloor();
     }
 }

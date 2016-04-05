@@ -5,8 +5,13 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import ru.amfitel.task.client.callback.DeleteCallback;
 import ru.amfitel.task.client.callback.FailureIgnoreCallback;
+import ru.amfitel.task.client.callback.InsertCallback;
+import ru.amfitel.task.client.callback.ReplaceCallback;
+import ru.amfitel.task.client.dto.AbstractDTO;
 import ru.amfitel.task.client.dto.BuildDTO;
 import ru.amfitel.task.client.dto.CabinetDTO;
 import ru.amfitel.task.client.dto.FloorDTO;
@@ -36,15 +41,6 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
     VerticalPanel right;
 
     final Tree tree = new Tree();
-    final FailureIgnoreCallback<Void> callback = new FailureIgnoreCallback<Void>() {
-
-        @Override
-        public void onSuccess(Void aVoid) {
-            //в случае успеха перерисуем дерево
-            refreshTree(tree);
-        }
-    };
-
 
     public void onModuleLoad() {
 
@@ -53,7 +49,7 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
         left = new VerticalPanel();
         right = new VerticalPanel();
         Anchor a = new Anchor("logout");
-        a.setHref("/logout");
+        a.setHref(GWT.getHostPageBaseURL()+"logout");
         left.add(a);
         panel.add(left);
         panel.add(right);
@@ -67,13 +63,13 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
             @Override
             public void onSelection(SelectionEvent<TreeItem> selectionEvent) {
 
-
                 TreeItem item = selectionEvent.getSelectedItem();
                 DraggableLabel label = (DraggableLabel)item.getWidget();
                 DTOEditor editor = label.getEditor();
                 editor.edit(label.getObject());
                 right.clear();
                 right.add(editor);
+
             }
         });
     }
@@ -82,39 +78,26 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
         tree.clear();
         buildingService.loadBuildings(new FailureIgnoreCallback<List<BuildDTO>>() {
 
-
-
             @Override
             public void onSuccess(List<BuildDTO> buildDTOs) {
+                final DeleteCallback deleteCallback = new DeleteCallback(tree);
                 //реакция дерева на сохранение объекта
                 for (final BuildDTO b : buildDTOs) {
-                    TreeItem buildItem = new TreeItem(new BuildDraggableLabel(b,callback ));
-
-
+                    TreeItem buildItem = new TreeItem(new BuildDraggableLabel(b, new ReplaceCallback<BuildDTO>(tree), deleteCallback));
 
                     for (final FloorDTO f : b.getFloors()) {
-
-
-                        TreeItem floorItem = new TreeItem(new FloorDraggableLabel(f, callback));
+                        TreeItem floorItem = new TreeItem(new FloorDraggableLabel(f, new ReplaceCallback<FloorDTO>(tree), deleteCallback));
                         buildItem.addItem(floorItem);
-
                         for (CabinetDTO c : f.getCabinets()) {
-                            TreeItem cabinetItem = new TreeItem(new CabinetDraggableLabel(c, callback));
-
-
-                           floorItem.addItem(cabinetItem);
+                            TreeItem cabinetItem = new TreeItem(new CabinetDraggableLabel(c, new ReplaceCallback<CabinetDTO>(tree), deleteCallback));
+                            floorItem.addItem(cabinetItem);
                         }
                         Button newCabinetButton = new Button("+ кабинет");
                         newCabinetButton.addClickHandler(new ClickHandler() {
                             @Override
                             public void onClick(ClickEvent event) {
                                 right.clear();
-                                CabinetEditor cabinetEditor = new CabinetEditor(new FailureIgnoreCallback<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        refreshTree(tree);
-                                    }
-                                });
+                                CabinetEditor cabinetEditor = new CabinetEditor(new InsertCallback<CabinetDTO>(tree), deleteCallback);
                                 right.add(cabinetEditor);
                                 CabinetDTO cabinetDTO= new CabinetDTO();
                                 cabinetDTO.setIdFloor(f.getId());
@@ -130,23 +113,13 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                         @Override
                         public void onClick(ClickEvent clickEvent) {
                             right.clear();
-
-                            FloorEditor floorEditor = new FloorEditor(new FailureIgnoreCallback<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    refreshTree(tree);
-                                }
-                            });
-
-
+                            FloorEditor floorEditor = new FloorEditor(new InsertCallback<FloorDTO>(tree), deleteCallback);
                             right.add(floorEditor);
                             FloorDTO floorDTO= new FloorDTO();
                             floorDTO.setIdBuild(b.getId());
                             floorEditor.edit(floorDTO);
-
                         }
                     });
-
                     tree.addItem(buildItem);
 
                 }
@@ -156,16 +129,9 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                     @Override
                     public void onClick(ClickEvent clickEvent) {
                         right.clear();
-                        BuildEditor buildEditor = new BuildEditor(new FailureIgnoreCallback<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                refreshTree(tree);
-                            }
-                        });
-
+                        BuildEditor buildEditor = new BuildEditor(new InsertCallback<BuildDTO>(tree), deleteCallback);
                         right.add(buildEditor);
                         buildEditor.edit(new BuildDTO());
-
                     }
                 });
             }
@@ -174,8 +140,4 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
 
     }
 
-    private void refreshTree(Tree tree) {
-        right.clear();
-        redrawTree(tree);
-    }
 }

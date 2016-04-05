@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import ru.amfitel.task.client.callback.DeleteCallback;
 import ru.amfitel.task.client.dto.AbstractDTO;
 
 /**
@@ -14,10 +15,13 @@ import ru.amfitel.task.client.dto.AbstractDTO;
  */
 public abstract class DTOEditor<D extends AbstractDTO> extends VerticalPanel implements Editor<D> {
 
-    AsyncCallback<Void> callback;
+    AsyncCallback<D> callback;
 
-    public DTOEditor(AsyncCallback<Void> callback) {
+    DeleteCallback deleteCallback;
+
+    public DTOEditor(AsyncCallback<D> callback, DeleteCallback deleteCallback) {
         this.callback = callback;
+        this.deleteCallback = deleteCallback;
     }
 
     public abstract void edit(D object);

@@ -45,7 +45,7 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
     }
 
     @Override
-    public void saveBuildDTO(BuildDTO b) {
+    public BuildDTO saveBuildDTO(BuildDTO b) {
         Build build;
         if (b.getId() == null) {
             build = new Build();
@@ -55,13 +55,14 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
 
         BuildTransformer transformer = new BuildTransformer();
         transformer.updateEntity(b, build);
-        buildRepository.save(build);
+        build= buildRepository.save(build);
+        return transformer.transform(build);
 
 
     }
 
     @Override
-    public void saveFloorDTO(FloorDTO f) {
+    public FloorDTO saveFloorDTO(FloorDTO f) {
         Floor floor;
         if (f.getId() == null) {
             floor = new Floor();
@@ -71,11 +72,12 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
         FloorTransformer transformer = new FloorTransformer();
         floor.setBuildId(buildRepository.findOne(f.getIdBuild()));
         transformer.updateEntity(f,floor);
-        floorRepository.save(floor);
+        floor = floorRepository.save(floor);
+        return transformer.transform(floor);
     }
 
     @Override
-    public void saveCabinetDTO(CabinetDTO c) {
+    public CabinetDTO saveCabinetDTO(CabinetDTO c) {
         Cabinet cabinet;
 
         if(c.getId()==null){
@@ -88,23 +90,32 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
         CabinetTransformer transformer = new CabinetTransformer();
         cabinet.setFloorId(floorRepository.findOne(c.getIdFloor()));
         transformer.updateEntity(c,cabinet);
-        cabinetRepository.save(cabinet);
+        cabinet = cabinetRepository.save(cabinet);
+        return transformer.transform(cabinet);
     }
 
     @Override
-    public void deleteCabinet(Long id) {
+    public CabinetDTO deleteCabinet(Long id) {
         cabinetRepository.delete(id);
+        CabinetDTO cabinetDTO = new CabinetDTO();
+        cabinetDTO.setId(id);
+        return cabinetDTO;
     }
 
     @Override
-    public void deleteBuild(Long id) {
+    public BuildDTO deleteBuild(Long id) {
         buildRepository.delete(id);
+        BuildDTO buildDTO = new BuildDTO();
+        buildDTO.setId(id);
+        return buildDTO;
     }
 
     @Override
-    public void deleteFloor(Long id) {
+    public FloorDTO deleteFloor(Long id) {
         floorRepository.delete(id);
-
+        FloorDTO floorDTO = new FloorDTO();
+        floorDTO.setId(id);
+        return floorDTO;
     }
 
 

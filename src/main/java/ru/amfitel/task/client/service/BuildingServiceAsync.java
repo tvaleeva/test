@@ -11,15 +11,15 @@ import java.util.List;
 public interface BuildingServiceAsync {
     void loadBuildings(AsyncCallback<List<BuildDTO>> async);
 
-    void saveBuildDTO(BuildDTO b, AsyncCallback<Void> async);
+    void saveBuildDTO(BuildDTO b, AsyncCallback<BuildDTO> async);
 
-    void saveFloorDTO(FloorDTO f, AsyncCallback<Void> async);
+    void saveFloorDTO(FloorDTO f, AsyncCallback<FloorDTO> async);
 
-    void saveCabinetDTO(CabinetDTO c, AsyncCallback<Void> async);
+    void saveCabinetDTO(CabinetDTO c, AsyncCallback<CabinetDTO> async);
 
-    void deleteCabinet(Long id, AsyncCallback<Void> async);
+    void deleteCabinet(Long id, AsyncCallback<CabinetDTO> async);
 
-    void deleteBuild(Long id, AsyncCallback<Void> async);
+    void deleteBuild(Long id, AsyncCallback<BuildDTO> async);
 
-    void deleteFloor(Long id, AsyncCallback<Void> async);
+    void deleteFloor(Long id, AsyncCallback<FloorDTO> async);
 }
