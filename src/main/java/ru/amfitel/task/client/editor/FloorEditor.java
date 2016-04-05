@@ -1,15 +1,11 @@
 package ru.amfitel.task.client.editor;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.IntegerBox;
-import com.google.gwt.user.client.ui.TextBox;
-import ru.amfitel.task.client.dto.BuildDTO;
+import com.google.gwt.user.client.ui.*;
 import ru.amfitel.task.client.dto.FloorDTO;
 import ru.amfitel.task.client.service.BuildingService;
 import ru.amfitel.task.client.service.BuildingServiceAsync;
@@ -24,9 +20,15 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
 
     public IntegerBox number;
 
+    private Label labelNumber;
+
     public IntegerBox countCabinet;
 
+    private Label labelCount;
+
     public FloorTypeEditor type;
+
+    private Label labelType;
 
     public Button save;
 
@@ -47,6 +49,9 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
 
     public FloorEditor(AsyncCallback<Void> callback) {
         super(callback);
+        labelNumber = new Label("№ этажа: ");
+        labelCount = new Label("Кол-во кабинетов: ");
+        labelType = new Label("Тип: ");
         number = new IntegerBox();
         countCabinet = new IntegerBox();
         type = new FloorTypeEditor();
@@ -54,9 +59,11 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
         deleteButton = new Button("Удалить");
         save.addClickHandler(this);
 
-
+        add(labelNumber);
         add(number);
+        add(labelCount);
         add(countCabinet);
+        add(labelType);
         add(type);
         add(save);
 

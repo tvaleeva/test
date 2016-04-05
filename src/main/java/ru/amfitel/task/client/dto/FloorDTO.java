@@ -73,7 +73,7 @@ public class FloorDTO extends AbstractDTO {
 
     @Override
     public String toString() {
-        return  "№ этажа:"+getNumber()+"/ Кол-во каб.: " +getCountCabinet()+"/ Площадь: "+ getSquare() +"/ Тип этажа: " + getType().getName();
+        return  "№ этажа:"+getNumber()+"/ Кол-во каб.: " +getCountCabinet()+"/ Тип этажа: " + getType().getName();
     }
 
     @Override

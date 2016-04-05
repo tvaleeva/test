@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.IntegerBox;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import ru.amfitel.task.client.dto.BuildDTO;
@@ -26,12 +27,22 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
     public MaterialEditor material;
     public Button saveButton;
     public Button deleteButton;
+    private Label labelName;
+    private Label labelDate;
+    private Label labelAddress;
+    private Label labelCountFloor;
+    private Label labelMaterial;
     BuildingServiceAsync buildingService = GWT.create(BuildingService.class);
     // Create the Driver
     Driver driver = GWT.create(Driver.class);
 
     public BuildEditor(AsyncCallback<Void> callback) {
         super(callback);
+        labelName = new Label("Название: ");
+        labelAddress = new Label("Адрес: ");
+        labelMaterial = new Label("Материал: ");
+        labelCountFloor = new Label("Кол-во этажей");
+        labelDate = new Label("Дата постройки");
         name = new TextBox();
         name.setName("Название");
         date = new DateBox();
@@ -44,11 +55,16 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
         saveButton.addClickHandler(this);
 
 
+        add(labelName);
         add(name);
-        add(date);
+        add(labelAddress);
         add(address);
-        add(countFloor);
+        add(labelDate);
+        add(date);
+        add(labelMaterial);
         add(material);
+        add(labelCountFloor);
+        add(countFloor);
         add(saveButton);
 
 

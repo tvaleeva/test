@@ -5,10 +5,7 @@ import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DoubleBox;
-import com.google.gwt.user.client.ui.IntegerBox;
-import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.*;
 import ru.amfitel.task.client.dictionary.CabinetType;
 import ru.amfitel.task.client.dto.CabinetDTO;
 import ru.amfitel.task.client.service.BuildingService;
@@ -24,6 +21,9 @@ public class CabinetEditor extends DTOEditor<CabinetDTO> implements ClickHandler
     public IntegerBox number;
     public DoubleBox square;
     public CabinetTypeEditor type;
+    private Label labelNumber;
+    private Label labelSquare;
+    private Label labelType;
     public Button save;
     public Button deleteButton;
 
@@ -42,14 +42,20 @@ public class CabinetEditor extends DTOEditor<CabinetDTO> implements ClickHandler
     Driver driver = GWT.create(Driver.class);
     public CabinetEditor(AsyncCallback<Void> callback) {
         super(callback);
+        labelNumber = new Label("№ кабинета: ");
+        labelSquare = new Label("Площадь: ");
+        labelType = new Label("Тип: ");
         number = new IntegerBox();
         square = new DoubleBox();
         type = new CabinetTypeEditor();
         save = new Button("Сохранить");
         save.addClickHandler(this);
         deleteButton = new Button("Удалить");
+        add(labelNumber);
         add(number);
+        add(labelSquare);
         add(square);
+        add(labelType);
         add(type);
         add(save);
 
