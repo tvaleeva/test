@@ -1,9 +1,7 @@
 package ru.amfitel.task.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Bublik on 31.03.2016.
@@ -21,6 +19,10 @@ public class User extends AbstractEntity {
 
     @Column(name = "non_blocked")
     private Boolean nonBlocked;
+
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "id_user", cascade = CascadeType.ALL)
+    private List<LoginAttempt> loginAttempts;
 
     public String getName() {
         return name;
@@ -44,5 +46,13 @@ public class User extends AbstractEntity {
 
     public void setNonBlocked(Boolean nonBlocked) {
         this.nonBlocked = nonBlocked;
+    }
+
+    public List<LoginAttempt> getLoginAttempts() {
+        return loginAttempts;
+    }
+
+    public void setLoginAttempts(List<LoginAttempt> loginAttempts) {
+        this.loginAttempts = loginAttempts;
     }
 }

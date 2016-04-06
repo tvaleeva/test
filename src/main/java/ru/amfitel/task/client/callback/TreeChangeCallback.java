@@ -1,6 +1,5 @@
 package ru.amfitel.task.client.callback;
 
-import com.google.gwt.user.client.ui.HasTreeItems;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
@@ -20,7 +19,7 @@ public abstract class TreeChangeCallback<T> extends FailureIgnoreCallback<T> {
     }
 
     protected TreeItem findElement(AbstractDTO abstractDTO) {
-       return findElement(abstractDTO.getObjectType(),abstractDTO.getId());
+        return findElement(abstractDTO.getObjectType(), abstractDTO.getId());
 
     }
 
@@ -28,28 +27,74 @@ public abstract class TreeChangeCallback<T> extends FailureIgnoreCallback<T> {
         for (int i = 0; i < tree.getItemCount(); i++) {
             TreeItem treeItem = tree.getItem(i);
             Widget widget = treeItem.getWidget();
-            if (widget instanceof DraggableLabel){
-                //to
+            if (widget instanceof DraggableLabel) {
                 DraggableLabel draggableLabel = (DraggableLabel) treeItem.getWidget();
                 AbstractDTO abstractDTO = draggableLabel.getObject();
                 if (abstractDTO.getObjectType() == type && abstractDTO.getId().equals(id)) {
                     return treeItem;
+                } else {
+                    return find(treeItem, type, id);
                 }
             }
         }
         return null;
     }
 
-    private TreeItem find (TreeItem parent, ObjectType type, Long id) {
+    private TreeItem find(TreeItem parent, ObjectType type, Long id) {
         for (int i = 0; i < parent.getChildCount(); i++) {
             TreeItem child = parent.getChild(i);
-            //if (child)
+            Widget widget = child.getWidget();
+            if (widget instanceof DraggableLabel) {
+                DraggableLabel draggableLabel = (DraggableLabel) child.getWidget();
+                AbstractDTO abstractDTO = draggableLabel.getObject();
+                if (abstractDTO.getObjectType() == type && abstractDTO.getId().equals(id)) {
+                    return child;
 
+                } else
+                    return find(child, type, id);
+            }
         }
         return null;
     }
 
+    protected void removeElementTree(AbstractDTO abstractDTO) {
+         removeElementTree(abstractDTO.getObjectType(), abstractDTO.getId());
 
+    }
 
+    protected void removeElementTree(ObjectType type, Long id) {
+        for (int i = 0; i < tree.getItemCount(); i++) {
+            TreeItem treeItem = tree.getItem(i);
+            Widget widget = treeItem.getWidget();
+            if (widget instanceof DraggableLabel) {
+                DraggableLabel draggableLabel = (DraggableLabel) treeItem.getWidget();
+                AbstractDTO abstractDTO = draggableLabel.getObject();
+                if (abstractDTO.getObjectType() == type && abstractDTO.getId().equals(id)) {
+                    tree.removeItem(treeItem);
+                    return;
+                } else {
+                    removeTreeItem(treeItem, type, id);
+                }
+            }
+        }
 
+    }
+
+    private void removeTreeItem(TreeItem parent, ObjectType type, Long id) {
+        for (int i = 0; i < parent.getChildCount(); i++) {
+            TreeItem child = parent.getChild(i);
+            Widget widget = child.getWidget();
+            if (widget instanceof DraggableLabel) {
+                DraggableLabel draggableLabel = (DraggableLabel) child.getWidget();
+                AbstractDTO abstractDTO = draggableLabel.getObject();
+                if (abstractDTO.getObjectType() == type && abstractDTO.getId().equals(id)) {
+                    parent.removeItem(child);
+                    return;
+
+                } else
+                    removeTreeItem(child, type, id);
+            }
+        }
+
+    }
 }

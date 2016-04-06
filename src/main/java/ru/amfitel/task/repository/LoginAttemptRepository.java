@@ -18,5 +18,8 @@ public interface LoginAttemptRepository  extends CrudRepository<LoginAttempt,Lon
     @Query("select count(u.Id) from LoginAttempt u where u.time > :time and u.id_user.Id =:id")
     Integer countFailAttempt(@Param("id") Long id, @Param("time") Date time);
 
+    @Query("delete from LoginAttempt u where u.id_user = :id")
+    void deleteUserAttempt(@Param("id") User id);
+
 
 }

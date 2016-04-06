@@ -1,7 +1,6 @@
 package ru.amfitel.task.client.callback;
 
 import com.google.gwt.user.client.ui.Tree;
-import com.google.gwt.user.client.ui.TreeItem;
 import ru.amfitel.task.client.dto.AbstractDTO;
 
 /**
@@ -15,10 +14,6 @@ public class DeleteCallback<O extends AbstractDTO> extends TreeChangeCallback<O>
 
     @Override
     public void onSuccess(AbstractDTO o) {
-        TreeItem treeItem = findElement(o);
-        if(treeItem!=null) {
-            tree.removeItem(treeItem);
-        }
-
+        removeElementTree(o);
     }
 }

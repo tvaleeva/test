@@ -11,7 +11,7 @@ import java.util.Date;
 @SequenceGenerator(name = "default_gen", sequenceName = "id_user_log_seq", allocationSize = 1)
 public class LoginAttempt extends AbstractEntity  {
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="id_user")
     private User id_user;
 
