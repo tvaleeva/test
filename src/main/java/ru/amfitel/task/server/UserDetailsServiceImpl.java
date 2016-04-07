@@ -28,42 +28,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     LoginAttemptRepository loginAttempt;
 
 
-
-    private Integer maxExemptions;
-
-
     @Override
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByName(username);
         if (user == null) {
             throw new UsernameNotFoundException("can't find user", new Throwable());
         }
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        cal.add(Calendar.DATE, -1);
-
-        Integer countFailAttempt = loginAttempt.countFailAttempt(user.getId(), cal.getTime());
-
-        Boolean blocked = countFailAttempt >= maxExemptions;
-
-        user.setNonBlocked(blocked);
-        //подсчитать кол-во попыток
-        //обновить статус user
-        userRepository.save(user);
-
 
         UserDetails userDetails =
                 new org.springframework.security.core.userdetails.User(user.getName(),
-                        user.getPassword(), true, true, true, !blocked, Collections.emptySet());
+                        user.getPassword(), true, true, true, !user.getNonBlocked(), Collections.emptySet());
 
         return userDetails;
     }
 
-    public Integer getMaxExemptions() {
-        return maxExemptions;
-    }
 
-    public void setMaxExemptions(Integer maxExemptions) {
-        this.maxExemptions = maxExemptions;
-    }
 }
