@@ -9,6 +9,7 @@ import ru.amfitel.task.entity.User;
 import ru.amfitel.task.repository.LoginAttemptRepository;
 import ru.amfitel.task.repository.UserRepository;
 
+import javax.annotation.Resource;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -20,7 +21,9 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
     UserRepository userRepository;
     @Autowired
     LoginAttemptRepository loginAttemptRepository;
+    @Resource
     private Integer maxExemptions;
+
     @Override
     public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent authenticationFailureBadCredentialsEvent) {
 
@@ -50,9 +53,10 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
         userRepository.save(user);
 
 
-
+        throw new UsernameNotFoundException("the number of remaining attempts: " + (maxExemptions - countFailAttempt), new Throwable());
 
     }
+
     public Integer getMaxExemptions() {
         return maxExemptions;
     }

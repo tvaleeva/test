@@ -58,9 +58,7 @@
         <property name="userDetailsService" ref="userDetailsService"/>
 
     </bean>
-    <bean id="authenticationFailureListener" class="ru.amfitel.task.server.AuthenticationFailureListener">
-        <property name="maxExemptions" value="3"/>
-    </bean>
+    <bean id="authenticationFailureListener" class="ru.amfitel.task.server.AuthenticationFailureListener"/>
     <bean id="authenticationSuccessListener" class="ru.amfitel.task.server.AuthenticationSuccessListener"/>
 
 
@@ -72,6 +70,7 @@
     </security:authentication-manager>
 
     <bean id="userDetailsService" class="ru.amfitel.task.server.UserDetailsServiceImpl"/>
+
 
     <security:http auto-config="true">
         <security:intercept-url pattern="/application/springGwtServlet/*" access="isAuthenticated()" method="POST"/>
