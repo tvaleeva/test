@@ -48,7 +48,7 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
 
     Driver driver = GWT.create(Driver.class);
 
-    public FloorEditor(AsyncCallback<FloorDTO> callback, DeleteCallback deleteCallback) {
+    public FloorEditor(AsyncCallback<FloorDTO> callback, AsyncCallback<FloorDTO> deleteCallback) {
         super(callback, deleteCallback);
         labelNumber = new Label("№ этажа: ");
         labelCount = new Label("Кол-во кабинетов: ");

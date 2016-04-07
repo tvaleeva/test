@@ -15,12 +15,12 @@ import ru.amfitel.task.client.editor.FloorEditor;
  */
 public class FloorDraggableLabel extends DraggableLabel<FloorDTO> {
 
-    public FloorDraggableLabel(FloorDTO object, AsyncCallback<FloorDTO> redrawCallback, DeleteCallback deleteCallback) {
-        super(object, redrawCallback, deleteCallback);
+    public FloorDraggableLabel(FloorDTO object) {
+        super(object);
     }
 
     @Override
-    public DTOEditor getEditor() {
+    public DTOEditor getEditor(AsyncCallback<FloorDTO> redrawCallback, AsyncCallback<FloorDTO> deleteCallback) {
         return  new FloorEditor(redrawCallback, deleteCallback);
     }
 

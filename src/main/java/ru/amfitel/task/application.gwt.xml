@@ -3,5 +3,10 @@
 <module rename-to="application">
     <inherits name='com.google.gwt.user.User'/>
     <inherits name='com.google.gwt.user.theme.standard.Standard'/>
+    <inherits name="org.hibernate.validator.HibernateValidator" />
     <entry-point class='ru.amfitel.task.client.EntryPoint'/>
+    <replace-with
+            class="ru.amfitel.task.client.validation.ValidationFactory">
+        <when-type-is class="javax.validation.ValidatorFactory" />
+    </replace-with>
 </module>

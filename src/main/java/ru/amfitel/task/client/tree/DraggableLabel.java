@@ -5,6 +5,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
+import org.springframework.scheduling.annotation.Async;
 import ru.amfitel.task.client.callback.DeleteCallback;
 import ru.amfitel.task.client.dto.AbstractDTO;
 import ru.amfitel.task.client.editor.DTOEditor;
@@ -17,17 +18,12 @@ import ru.amfitel.task.client.service.BuildingServiceAsync;
 
 
 public abstract class DraggableLabel<O extends AbstractDTO> extends Label implements DragStartHandler, DropHandler, DragOverHandler {
-    AsyncCallback<O> redrawCallback;
-    DeleteCallback deleteCallback;
-
     protected static DraggableLabel dragging = null;
     private O object;
 
-    public DraggableLabel(O object, AsyncCallback<O> redrawCallback, DeleteCallback deleteCallback) {
+    public DraggableLabel(O object) {
         super();
         this.object = object;
-        this.deleteCallback = deleteCallback;
-        this.redrawCallback = redrawCallback;
         updateText();
         getElement().setDraggable(Element.DRAGGABLE_TRUE);
         addDragStartHandler(this);
@@ -40,7 +36,7 @@ public abstract class DraggableLabel<O extends AbstractDTO> extends Label implem
     }
 
     //создать нужный эдитор в реализации
-    public abstract DTOEditor getEditor();
+    public abstract DTOEditor getEditor(AsyncCallback<O> insert, AsyncCallback<O> delete);
 
     public O getObject() {
         return object;

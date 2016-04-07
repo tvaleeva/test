@@ -4,6 +4,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import ru.amfitel.task.client.dictionary.Material;
 import ru.amfitel.task.client.dictionary.ObjectType;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -13,14 +14,18 @@ import java.util.List;
 
 public class BuildDTO extends AbstractDTO {
 
+    @NotNull
     private String name;
-
+    @NotNull
     private String address;
 
+    @NotNull
     private Date date;
 
+    @NotNull
     private Material material;
 
+    @NotNull
     private Integer countFloor;
 
     private List<FloorDTO> floors;
@@ -81,10 +86,10 @@ public class BuildDTO extends AbstractDTO {
     @Override
     public String toString() {
 
-        return "Название:" + getName() +
-                "/ Адрес:" + getAddress() +
-                "/ Дата постройки:" + DateTimeFormat.getFormat("dd.M.y").format(getDate()) +
-                "/ Материал:" + (getMaterial() == null ? null : getMaterial().getName()) +
+        return "Название:" + name +
+                "/ Адрес:" +address +
+                "/ Дата постройки:" + (date==null? null: DateTimeFormat.getFormat("dd.M.y").format(date)) +
+                "/ Материал:" + (material == null ? null : material.getName()) +
                 "/ Кол-во этажей:" + getCountFloor();
     }
 }

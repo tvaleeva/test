@@ -15,7 +15,14 @@ import ru.amfitel.task.transformer.BuildTransformer;
 import ru.amfitel.task.transformer.CabinetTransformer;
 import ru.amfitel.task.transformer.FloorTransformer;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.groups.Default;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -35,6 +42,9 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
     @Autowired
     private CabinetRepository cabinetRepository;
 
+    private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
+
 
     public List<BuildDTO> loadBuildings() {
         Iterable<Build> iterable = buildRepository.findAll();
@@ -46,6 +56,15 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
 
     @Override
     public BuildDTO saveBuildDTO(BuildDTO b) {
+
+        Set<ConstraintViolation<BuildDTO>> violations = validator.validate(b,
+                Default.class);
+        if (!violations.isEmpty()) {
+            Set<ConstraintViolation<?>> temp = new HashSet<ConstraintViolation<?>>(
+                    violations);
+            throw new ConstraintViolationException(temp);
+        }
+
         Build build;
         if (b.getId() == null) {
             build = new Build();

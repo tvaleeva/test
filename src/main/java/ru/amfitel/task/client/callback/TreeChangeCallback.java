@@ -33,7 +33,10 @@ public abstract class TreeChangeCallback<T> extends FailureIgnoreCallback<T> {
                 if (abstractDTO.getObjectType() == type && abstractDTO.getId().equals(id)) {
                     return treeItem;
                 } else {
-                    return find(treeItem, type, id);
+                    TreeItem item = find(treeItem, type, id);
+                    if (item != null){
+                        return item;
+                    }
                 }
             }
         }
@@ -50,8 +53,12 @@ public abstract class TreeChangeCallback<T> extends FailureIgnoreCallback<T> {
                 if (abstractDTO.getObjectType() == type && abstractDTO.getId().equals(id)) {
                     return child;
 
-                } else
-                    return find(child, type, id);
+                } else {
+                    TreeItem item = find(child, type, id);
+                    if (item != null){
+                        return item;
+                    }
+                }
             }
         }
         return null;

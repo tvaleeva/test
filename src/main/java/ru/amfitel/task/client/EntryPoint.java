@@ -5,12 +5,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
-import ru.amfitel.task.client.callback.DeleteCallback;
-import ru.amfitel.task.client.callback.FailureIgnoreCallback;
-import ru.amfitel.task.client.callback.InsertCallback;
-import ru.amfitel.task.client.callback.ReplaceCallback;
+import ru.amfitel.task.client.callback.*;
 import ru.amfitel.task.client.dto.AbstractDTO;
 import ru.amfitel.task.client.dto.BuildDTO;
 import ru.amfitel.task.client.dto.CabinetDTO;
@@ -26,7 +24,9 @@ import ru.amfitel.task.client.tree.BuildDraggableLabel;
 import ru.amfitel.task.client.tree.CabinetDraggableLabel;
 import ru.amfitel.task.client.tree.FloorDraggableLabel;
 
+import javax.validation.ConstraintViolation;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Bublik on 27.03.2016.
@@ -41,6 +41,11 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
     VerticalPanel right;
 
     final Tree tree = new Tree();
+
+    final WrappedCallback wrappedDeleteCallback = new WrappedClearCalback(new DeleteCallback(tree));
+    final WrappedCallback wrappedReplaceCallback = new WrappedClearCalback(new ReplaceCallback(tree));
+    final WrappedCallback wrappedInsertCallback = new WrappedClearCalback(new InsertCallback(tree));
+
 
     public void onModuleLoad() {
 
@@ -57,15 +62,13 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
         redrawTree(tree);
         left.add(tree);
 
-
-
         tree.addSelectionHandler(new SelectionHandler<TreeItem>() {
             @Override
             public void onSelection(SelectionEvent<TreeItem> selectionEvent) {
 
                 TreeItem item = selectionEvent.getSelectedItem();
                 DraggableLabel label = (DraggableLabel)item.getWidget();
-                DTOEditor editor = label.getEditor();
+                DTOEditor editor = label.getEditor(wrappedReplaceCallback, wrappedDeleteCallback);
                 editor.edit(label.getObject());
                 right.clear();
                 right.add(editor);
@@ -80,16 +83,15 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
 
             @Override
             public void onSuccess(List<BuildDTO> buildDTOs) {
-                final DeleteCallback deleteCallback = new DeleteCallback(tree);
                 //реакция дерева на сохранение объекта
                 for (final BuildDTO b : buildDTOs) {
-                    TreeItem buildItem = new TreeItem(new BuildDraggableLabel(b, new ReplaceCallback<BuildDTO>(tree), deleteCallback));
+                    TreeItem buildItem = new TreeItem(new BuildDraggableLabel(b));
 
                     for (final FloorDTO f : b.getFloors()) {
-                        TreeItem floorItem = new TreeItem(new FloorDraggableLabel(f, new ReplaceCallback<FloorDTO>(tree), deleteCallback));
+                        TreeItem floorItem = new TreeItem(new FloorDraggableLabel(f));
                         buildItem.addItem(floorItem);
                         for (CabinetDTO c : f.getCabinets()) {
-                            TreeItem cabinetItem = new TreeItem(new CabinetDraggableLabel(c, new ReplaceCallback<CabinetDTO>(tree), deleteCallback));
+                            TreeItem cabinetItem = new TreeItem(new CabinetDraggableLabel(c));
                             floorItem.addItem(cabinetItem);
                         }
                         Button newCabinetButton = new Button("+ кабинет");
@@ -97,7 +99,7 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                             @Override
                             public void onClick(ClickEvent event) {
                                 right.clear();
-                                CabinetEditor cabinetEditor = new CabinetEditor(new InsertCallback<CabinetDTO>(tree), deleteCallback);
+                                CabinetEditor cabinetEditor = new CabinetEditor(wrappedInsertCallback, wrappedDeleteCallback);
                                 right.add(cabinetEditor);
                                 CabinetDTO cabinetDTO= new CabinetDTO();
                                 cabinetDTO.setIdFloor(f.getId());
@@ -113,7 +115,7 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                         @Override
                         public void onClick(ClickEvent clickEvent) {
                             right.clear();
-                            FloorEditor floorEditor = new FloorEditor(new InsertCallback<FloorDTO>(tree), deleteCallback);
+                            FloorEditor floorEditor = new FloorEditor(wrappedInsertCallback, wrappedDeleteCallback);
                             right.add(floorEditor);
                             FloorDTO floorDTO= new FloorDTO();
                             floorDTO.setIdBuild(b.getId());
@@ -129,7 +131,7 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                     @Override
                     public void onClick(ClickEvent clickEvent) {
                         right.clear();
-                        BuildEditor buildEditor = new BuildEditor(new InsertCallback<BuildDTO>(tree), deleteCallback);
+                        BuildEditor buildEditor = new BuildEditor(wrappedInsertCallback, wrappedDeleteCallback);
                         right.add(buildEditor);
                         buildEditor.edit(new BuildDTO());
                     }
@@ -140,4 +142,25 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
 
     }
 
+    class WrappedClearCalback<T> extends WrappedCallback<T> {
+
+        public WrappedClearCalback(AsyncCallback<T> wrapped) {
+            super(wrapped);
+        }
+
+        @Override
+        public void onConstracintViolation(Set<ConstraintViolation<?>> violations) {
+
+        }
+
+        @Override
+        public void actionOnSuccess(T t) {
+            right.clear();
+        }
+
+        @Override
+        public void actionOnFailure(Throwable throwable) {
+
+        }
+    }
 }

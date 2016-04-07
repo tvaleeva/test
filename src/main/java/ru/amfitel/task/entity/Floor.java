@@ -23,7 +23,7 @@ public class Floor extends AbstractEntity {
    @Column(name = "square")
     private Float square;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="id_build")
     private Build buildId;
 

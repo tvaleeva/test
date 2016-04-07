@@ -4,6 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.IntegerBox;
@@ -11,9 +12,14 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
 import ru.amfitel.task.client.callback.DeleteCallback;
+import ru.amfitel.task.client.callback.WrappedCallback;
 import ru.amfitel.task.client.dto.BuildDTO;
 import ru.amfitel.task.client.service.BuildingService;
 import ru.amfitel.task.client.service.BuildingServiceAsync;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.Set;
 
 /**
  * Created by Bublik on 2ito8.03.2016.
@@ -37,7 +43,7 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
     // Create the Driver
     Driver driver = GWT.create(Driver.class);
 
-    public BuildEditor(AsyncCallback<BuildDTO> callback, DeleteCallback deleteCallback) {
+    public BuildEditor(AsyncCallback<BuildDTO> callback, AsyncCallback<BuildDTO> deleteCallback) {
         super(callback,deleteCallback);
         labelName = new Label("Название: ");
         labelAddress = new Label("Адрес: ");
@@ -69,10 +75,34 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
         add(saveButton);
     }
 
+    class ErrorCallback<T> extends WrappedCallback<T> {
+
+
+        public ErrorCallback(AsyncCallback<T> wrapped) {
+            super(wrapped);
+        }
+
+        @Override
+        public void onConstracintViolation(Set<ConstraintViolation<?>> violations) {
+            Window.alert(violations.iterator().next().getMessage());
+        }
+
+        @Override
+        public void actionOnSuccess(T t) {
+
+        }
+
+        @Override
+        public void actionOnFailure(Throwable throwable) {
+
+        }
+    }
+
     @Override
     public void onClick(ClickEvent clickEvent) {
+        WrappedCallback wrappedCallback = new ErrorCallback<>(callback);
         BuildDTO buildDTO = driver.flush();
-        buildingService.saveBuildDTO(buildDTO, callback);
+        buildingService.saveBuildDTO(buildDTO, wrappedCallback);
     }
 
     @Override

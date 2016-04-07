@@ -13,7 +13,6 @@ import java.util.List;
 @Entity
 @Table(name = "build")
 @SequenceGenerator(name = "default_gen", sequenceName = "id_build_seq", allocationSize = 1)
-//TODO id
 public class Build extends AbstractEntity {
 
     @Column(name = "name")

@@ -17,12 +17,12 @@ import ru.amfitel.task.entity.Floor;
 public class BuildDraggableLabel extends DraggableLabel<BuildDTO> {
 
 
-    public BuildDraggableLabel(BuildDTO object, AsyncCallback<BuildDTO> redrawCallback, DeleteCallback deleteCallback) {
-        super(object, redrawCallback, deleteCallback);
+    public BuildDraggableLabel(BuildDTO object) {
+        super(object);
     }
 
     @Override
-    public DTOEditor getEditor() {
+    public DTOEditor getEditor(AsyncCallback<BuildDTO> redrawCallback, AsyncCallback<BuildDTO> deleteCallback) {
         return new BuildEditor(redrawCallback, deleteCallback);
     }
 

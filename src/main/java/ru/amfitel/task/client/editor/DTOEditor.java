@@ -17,9 +17,9 @@ public abstract class DTOEditor<D extends AbstractDTO> extends VerticalPanel imp
 
     AsyncCallback<D> callback;
 
-    DeleteCallback deleteCallback;
+    AsyncCallback<D> deleteCallback;
 
-    public DTOEditor(AsyncCallback<D> callback, DeleteCallback deleteCallback) {
+    public DTOEditor(AsyncCallback<D> callback, AsyncCallback<D> deleteCallback) {
         this.callback = callback;
         this.deleteCallback = deleteCallback;
     }

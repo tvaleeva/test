@@ -41,7 +41,7 @@ public class CabinetEditor extends DTOEditor<CabinetDTO> implements ClickHandler
 
      }
     Driver driver = GWT.create(Driver.class);
-    public CabinetEditor(AsyncCallback<CabinetDTO> callback, DeleteCallback deleteCallback) {
+    public CabinetEditor(AsyncCallback<CabinetDTO> callback, AsyncCallback<CabinetDTO> deleteCallback) {
         super(callback, deleteCallback);
         labelNumber = new Label("№ кабинета: ");
         labelSquare = new Label("Площадь: ");

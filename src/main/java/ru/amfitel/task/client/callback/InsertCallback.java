@@ -54,17 +54,15 @@ public class InsertCallback<O extends AbstractDTO> extends TreeChangeCallback<O>
 
     private TreeItem createTreeItem(AbstractDTO a) {
         DraggableLabel label = null;
-        ReplaceCallback replaceCallback = new ReplaceCallback(tree);
-        DeleteCallback deleteCallback = new DeleteCallback(tree);
         switch (a.getObjectType()) {
             case BUILDING:
-                label = new BuildDraggableLabel((BuildDTO) a, replaceCallback, deleteCallback);
+                label = new BuildDraggableLabel((BuildDTO) a);
                 break;
             case FLOOR:
-                label = new FloorDraggableLabel((FloorDTO) a, replaceCallback, deleteCallback);
+                label = new FloorDraggableLabel((FloorDTO) a);
                 break;
             case CABINET:
-                label = new CabinetDraggableLabel((CabinetDTO) a, replaceCallback, deleteCallback);
+                label = new CabinetDraggableLabel((CabinetDTO) a);
                 break;
         }
         return new TreeItem(label);

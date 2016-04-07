@@ -17,7 +17,7 @@ public class Cabinet extends AbstractEntity {
    @Column(name = "square")
     private Double square;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="floor_id")
     private Floor floorId;
 
