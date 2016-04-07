@@ -23,7 +23,7 @@
         <property name="driverClass" value="org.postgresql.Driver"/>
         <property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/postgres"/>
         <property name="user" value="postgres"/>
-        <property name="password" value="nfnfhcrbq"/>
+        <property name="password" value="root"/>
         <property name="maxPoolSize" value="50"/>
         <property name="initialPoolSize" value="1"/>
         <property name="minPoolSize" value="1"/>
@@ -58,7 +58,9 @@
         <property name="userDetailsService" ref="userDetailsService"/>
 
     </bean>
-    <bean id="authenticationFailureListener" class="ru.amfitel.task.server.AuthenticationFailureListener"/>
+    <bean id="authenticationFailureListener" class="ru.amfitel.task.server.AuthenticationFailureListener">
+        <property name="maxExemptions" ref="maxExemptions"/>
+            </bean>
     <bean id="authenticationSuccessListener" class="ru.amfitel.task.server.AuthenticationSuccessListener"/>
 
 
@@ -70,6 +72,7 @@
     </security:authentication-manager>
 
     <bean id="userDetailsService" class="ru.amfitel.task.server.UserDetailsServiceImpl"/>
+
 
 
     <security:http auto-config="true">

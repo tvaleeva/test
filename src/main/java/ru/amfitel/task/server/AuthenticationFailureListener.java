@@ -21,7 +21,7 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
     UserRepository userRepository;
     @Autowired
     LoginAttemptRepository loginAttemptRepository;
-    @Resource
+
     private Integer maxExemptions;
 
     @Override
@@ -32,7 +32,7 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
         User user = userRepository.findByName(username);
 
         if (user == null) {
-            throw new UsernameNotFoundException("can't find user", new Throwable());
+            return;
         }
 
         LoginAttempt loginAttempt = new LoginAttempt();
