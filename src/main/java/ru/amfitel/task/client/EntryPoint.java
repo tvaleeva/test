@@ -23,6 +23,7 @@ import ru.amfitel.task.client.tree.DraggableLabel;
 import ru.amfitel.task.client.tree.BuildDraggableLabel;
 import ru.amfitel.task.client.tree.CabinetDraggableLabel;
 import ru.amfitel.task.client.tree.FloorDraggableLabel;
+import ru.amfitel.task.client.tree.item.TreeItemWithButton;
 
 import javax.validation.ConstraintViolation;
 import java.util.List;
@@ -83,19 +84,34 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
 
             @Override
             public void onSuccess(List<BuildDTO> buildDTOs) {
+                TreeItemWithButton root = new TreeItemWithButton();
+                root.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent clickEvent) {
+                        right.clear();
+                        BuildEditor buildEditor = new BuildEditor(wrappedInsertCallback, wrappedDeleteCallback);
+                        right.add(buildEditor);
+                        buildEditor.edit(new BuildDTO());
+                    }
+                });
                 //реакция дерева на сохранение объекта
                 for (final BuildDTO b : buildDTOs) {
-                    TreeItem buildItem = new TreeItem(new BuildDraggableLabel(b));
-
-                    for (final FloorDTO f : b.getFloors()) {
-                        TreeItem floorItem = new TreeItem(new FloorDraggableLabel(f));
-                        buildItem.addItem(floorItem);
-                        for (CabinetDTO c : f.getCabinets()) {
-                            TreeItem cabinetItem = new TreeItem(new CabinetDraggableLabel(c));
-                            floorItem.addItem(cabinetItem);
+                    TreeItemWithButton buildItem = new TreeItemWithButton(new BuildDraggableLabel(b));
+                    buildItem.addClickHandler(new ClickHandler() {
+                        @Override
+                        public void onClick(ClickEvent clickEvent) {
+                            right.clear();
+                            FloorEditor floorEditor = new FloorEditor(wrappedInsertCallback, wrappedDeleteCallback);
+                            right.add(floorEditor);
+                            FloorDTO floorDTO= new FloorDTO();
+                            floorDTO.setIdBuild(b.getId());
+                            floorEditor.edit(floorDTO);
                         }
-                        /*Button newCabinetButton = new Button("+ кабинет");
-                        newCabinetButton.addClickHandler(new ClickHandler() {
+                    });
+                    for (final FloorDTO f : b.getFloors()) {
+                        TreeItemWithButton floorItem = new TreeItemWithButton(new FloorDraggableLabel(f));
+                        buildItem.addItem(floorItem);
+                        floorItem.addClickHandler(new ClickHandler() {
                             @Override
                             public void onClick(ClickEvent event) {
                                 right.clear();
@@ -107,37 +123,30 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
 
                             }
                         });
+
+                        for (CabinetDTO c : f.getCabinets()) {
+                            TreeItem cabinetItem = new TreeItemWithButton(new CabinetDraggableLabel(c));
+                            floorItem.addItem(cabinetItem);
+                        }
+                        /*Button newCabinetButton = new Button("+ кабинет");
+                        newCabinetButton.addClickHandler();
                         floorItem.addItem(newCabinetButton);*/
                     }
                     /*Button newFloorButton = new Button("+ этаж");
                     buildItem.addItem(newFloorButton);
-                    newFloorButton.addClickHandler(new ClickHandler() {
-                        @Override
-                        public void onClick(ClickEvent clickEvent) {
-                            right.clear();
-                            FloorEditor floorEditor = new FloorEditor(wrappedInsertCallback, wrappedDeleteCallback);
-                            right.add(floorEditor);
-                            FloorDTO floorDTO= new FloorDTO();
-                            floorDTO.setIdBuild(b.getId());
-                            floorEditor.edit(floorDTO);
-                        }
-                    });
+                    newFloorButton.addClickHandler();
                     */
-                    tree.addItem(buildItem);
+                    root.addItem(buildItem);
 
                 }
+                tree.addItem(root);
                 /*
                 Button newBuildingButton = new Button("+ дом");
                 tree.addItem(newBuildingButton);
-                newBuildingButton.addClickHandler(new ClickHandler() {
-                    @Override
-                    public void onClick(ClickEvent clickEvent) {
-                        right.clear();
-                        BuildEditor buildEditor = new BuildEditor(wrappedInsertCallback, wrappedDeleteCallback);
-                        right.add(buildEditor);
-                        buildEditor.edit(new BuildDTO());
-                    }
-                });*/
+                newBuildingButton.addClickHandler(;
+
+
+                    */
             }
 
         });

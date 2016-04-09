@@ -30,13 +30,19 @@ public abstract class TreeChangeCallback<T> extends FailureIgnoreCallback<T> {
             if (widget instanceof DraggableLabel) {
                 DraggableLabel draggableLabel = (DraggableLabel) treeItem.getWidget();
                 AbstractDTO abstractDTO = draggableLabel.getObject();
+                //FIXME
                 if (abstractDTO.getObjectType() == type && abstractDTO.getId().equals(id)) {
                     return treeItem;
                 } else {
                     TreeItem item = find(treeItem, type, id);
-                    if (item != null){
+                    if (item != null) {
                         return item;
                     }
+                }
+            } else {
+                TreeItem item = find(treeItem, type, id);
+                if (item != null) {
+                    return item;
                 }
             }
         }
@@ -55,9 +61,15 @@ public abstract class TreeChangeCallback<T> extends FailureIgnoreCallback<T> {
 
                 } else {
                     TreeItem item = find(child, type, id);
-                    if (item != null){
+                    if (item != null) {
                         return item;
                     }
+                }
+            }
+            else {
+                TreeItem item = find(child, type, id);
+                if (item != null) {
+                    return item;
                 }
             }
         }
@@ -65,7 +77,7 @@ public abstract class TreeChangeCallback<T> extends FailureIgnoreCallback<T> {
     }
 
     protected void removeElementTree(AbstractDTO abstractDTO) {
-         removeElementTree(abstractDTO.getObjectType(), abstractDTO.getId());
+        removeElementTree(abstractDTO.getObjectType(), abstractDTO.getId());
 
     }
 
@@ -82,6 +94,8 @@ public abstract class TreeChangeCallback<T> extends FailureIgnoreCallback<T> {
                 } else {
                     removeTreeItem(treeItem, type, id);
                 }
+            } else {
+                removeTreeItem(treeItem, type, id);
             }
         }
 
@@ -98,8 +112,11 @@ public abstract class TreeChangeCallback<T> extends FailureIgnoreCallback<T> {
                     parent.removeItem(child);
                     return;
 
-                } else
+                } else {
                     removeTreeItem(child, type, id);
+                }
+            } else {
+                removeTreeItem(child, type, id);
             }
         }
 

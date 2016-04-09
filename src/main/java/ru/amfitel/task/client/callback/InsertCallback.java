@@ -11,6 +11,7 @@ import ru.amfitel.task.client.tree.BuildDraggableLabel;
 import ru.amfitel.task.client.tree.CabinetDraggableLabel;
 import ru.amfitel.task.client.tree.DraggableLabel;
 import ru.amfitel.task.client.tree.FloorDraggableLabel;
+import ru.amfitel.task.client.tree.item.TreeItemWithButton;
 
 /**
  * Created by Bublik on 05.04.2016.
@@ -65,7 +66,7 @@ public class InsertCallback<O extends AbstractDTO> extends TreeChangeCallback<O>
                 label = new CabinetDraggableLabel((CabinetDTO) a);
                 break;
         }
-        return new TreeItem(label);
+        return new TreeItemWithButton(label);
     }
 
     private AbstractDTO extractObject(TreeItem treeItem) {
