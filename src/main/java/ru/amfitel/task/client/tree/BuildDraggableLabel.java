@@ -16,7 +16,6 @@ import ru.amfitel.task.entity.Floor;
  */
 public class BuildDraggableLabel extends DraggableLabel<BuildDTO> {
 
-
     public BuildDraggableLabel(BuildDTO object) {
         super(object);
     }
@@ -30,15 +29,5 @@ public class BuildDraggableLabel extends DraggableLabel<BuildDTO> {
     protected boolean isDroppable() {
         return dragging.getObject().getObjectType()== ObjectType.FLOOR;
     }
-
-    @Override
-    protected void processDrop() {
-        FloorDTO floor = (FloorDTO) dragging.getObject();
-        floor.setIdBuild(this.getObject().getId());
-        //buildingService.saveFloorDTO(floor, redrawCallback );
-
-
-    }
-
 
 }

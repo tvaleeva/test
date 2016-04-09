@@ -29,10 +29,4 @@ public class FloorDraggableLabel extends DraggableLabel<FloorDTO> {
         return dragging.getObject().getObjectType()== ObjectType.CABINET;
     }
 
-    @Override
-    protected void processDrop() {
-        //CabinetDTO cabinet = (CabinetDTO) dragging.getObject();
-        //cabinet.setIdFloor(getObject().getId());
-        //buildingService.saveCabinetDTO(cabinet,redrawCallback);
-    }
 }

@@ -17,9 +17,13 @@ import ru.amfitel.task.client.service.BuildingServiceAsync;
  */
 
 
-public abstract class DraggableLabel<O extends AbstractDTO> extends Label implements DragStartHandler, DropHandler, DragOverHandler {
+public abstract class DraggableLabel<O extends AbstractDTO> extends Label implements DragStartHandler, HasDropHandlers, DragOverHandler {
     protected static DraggableLabel dragging = null;
     private O object;
+
+    public static DraggableLabel getDragging () {
+        return dragging;
+    }
 
     public DraggableLabel(O object) {
         super();
@@ -28,7 +32,6 @@ public abstract class DraggableLabel<O extends AbstractDTO> extends Label implem
         getElement().setDraggable(Element.DRAGGABLE_TRUE);
         addDragStartHandler(this);
         addDragOverHandler(this);
-        addDropHandler(this);
     }
 
     private void updateText() {
@@ -54,19 +57,12 @@ public abstract class DraggableLabel<O extends AbstractDTO> extends Label implem
 
     protected abstract boolean isDroppable();
 
-    protected abstract void processDrop();
-
-    @Override
-    public void onDrop(DropEvent event) {
-        event.preventDefault();
-        processDrop();
-
-    }
-
     @Override
     public void onDragOver(DragOverEvent event) {
         if (isDroppable()) {
             event.preventDefault();
         }
     }
+
+
 }

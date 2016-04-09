@@ -4,6 +4,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -19,6 +21,7 @@ import ru.amfitel.task.client.service.BuildingServiceAsync;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -53,6 +56,13 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
         name = new TextBox();
         name.setName("Название");
         date = new DateBox();
+        //date.setFormat();
+        date.addValueChangeHandler(new ValueChangeHandler<Date>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<Date> event) {
+                //clear on invalid input
+            }
+        });
         address = new TextBox();
         countFloor = new IntegerBox();
         material = new MaterialEditor();
@@ -73,37 +83,28 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
         add(labelCountFloor);
         add(countFloor);
         add(saveButton);
-        addErrorsPanel();
     }
 
-    class ErrorCallback<T> extends WrappedCallback<T> {
+    class ErrorCallback<T> extends ru.amfitel.task.client.callback.AsyncCallback<T> {
 
+        @Override
+        public void onSuccess(T result) {
 
-        public ErrorCallback(AsyncCallback<T> wrapped) {
-            super(wrapped);
         }
 
         @Override
-        public void onConstracintViolation(Set<ConstraintViolation<?>> violations) {
+        protected void onConstractViolation(Set<ConstraintViolation<?>> violations) {
+            super.onConstractViolation(violations);
             setErrors(violations);
-        }
-
-        @Override
-        public void actionOnSuccess(T t) {
-
-        }
-
-        @Override
-        public void actionOnFailure(Throwable throwable) {
-
         }
     }
 
     @Override
     public void onClick(ClickEvent clickEvent) {
-        WrappedCallback wrappedCallback = new ErrorCallback<>(callback);
+       /* WrappedCallback wrappedCallback = new WrappedCallback(new AsyncCallback[]{callback, new ErrorCallback<>()});
         BuildDTO buildDTO = driver.flush();
         buildingService.saveBuildDTO(buildDTO, wrappedCallback);
+        */
     }
 
     @Override

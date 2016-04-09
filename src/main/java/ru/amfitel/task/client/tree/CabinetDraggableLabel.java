@@ -26,8 +26,4 @@ public class CabinetDraggableLabel extends DraggableLabel<CabinetDTO> {
         return false;
     }
 
-    @Override
-    protected void processDrop() {
-        //do nothing
-    }
 }
