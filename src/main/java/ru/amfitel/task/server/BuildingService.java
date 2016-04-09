@@ -1,5 +1,6 @@
 package ru.amfitel.task.server;
 
+import org.hibernate.validator.engine.ValidationSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.amfitel.task.client.dto.BuildDTO;
@@ -135,6 +136,11 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
         FloorDTO floorDTO = new FloorDTO();
         floorDTO.setId(id);
         return floorDTO;
+    }
+
+    @Override
+    public ValidationSupport dummy() {
+        return null;
     }
 
 

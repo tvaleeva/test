@@ -73,6 +73,7 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
         add(labelCountFloor);
         add(countFloor);
         add(saveButton);
+        addErrorsPanel();
     }
 
     class ErrorCallback<T> extends WrappedCallback<T> {
@@ -84,7 +85,7 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
 
         @Override
         public void onConstracintViolation(Set<ConstraintViolation<?>> violations) {
-            Window.alert(violations.iterator().next().getMessage());
+            setErrors(violations);
         }
 
         @Override

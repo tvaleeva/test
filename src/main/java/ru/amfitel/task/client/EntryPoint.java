@@ -94,7 +94,7 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                             TreeItem cabinetItem = new TreeItem(new CabinetDraggableLabel(c));
                             floorItem.addItem(cabinetItem);
                         }
-                        Button newCabinetButton = new Button("+ кабинет");
+                        /*Button newCabinetButton = new Button("+ кабинет");
                         newCabinetButton.addClickHandler(new ClickHandler() {
                             @Override
                             public void onClick(ClickEvent event) {
@@ -107,9 +107,9 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
 
                             }
                         });
-                        floorItem.addItem(newCabinetButton);
+                        floorItem.addItem(newCabinetButton);*/
                     }
-                    Button newFloorButton = new Button("+ этаж");
+                    /*Button newFloorButton = new Button("+ этаж");
                     buildItem.addItem(newFloorButton);
                     newFloorButton.addClickHandler(new ClickHandler() {
                         @Override
@@ -122,9 +122,11 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                             floorEditor.edit(floorDTO);
                         }
                     });
+                    */
                     tree.addItem(buildItem);
 
                 }
+                /*
                 Button newBuildingButton = new Button("+ дом");
                 tree.addItem(newBuildingButton);
                 newBuildingButton.addClickHandler(new ClickHandler() {
@@ -135,7 +137,7 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                         right.add(buildEditor);
                         buildEditor.edit(new BuildDTO());
                     }
-                });
+                });*/
             }
 
         });

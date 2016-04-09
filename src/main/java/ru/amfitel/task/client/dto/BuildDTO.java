@@ -25,7 +25,7 @@ public class BuildDTO extends AbstractDTO {
     @NotNull
     private Material material;
 
-    @NotNull
+    @NotNull(message = "Поле \"Кол-во этажей не заполнено\"")
     private Integer countFloor;
 
     private List<FloorDTO> floors;

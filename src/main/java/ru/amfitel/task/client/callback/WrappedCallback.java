@@ -18,6 +18,7 @@ public abstract class WrappedCallback<T> extends ru.amfitel.task.client.callback
 
     @Override
     public void onFailure(Throwable throwable) {
+        super.onFailure(throwable);
         actionOnFailure(throwable);
         wrapped.onFailure(throwable);
     }
