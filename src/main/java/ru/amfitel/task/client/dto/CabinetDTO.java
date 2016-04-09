@@ -52,7 +52,7 @@ public class CabinetDTO extends AbstractDTO {
 
     @Override
     public String toString() {
-        return "№ каб. :"+getNumber()+"/ Площадь:" + getSquare()+"/ Тип:" + (getType() == null ? null : getType().getName());
+        return "№ каб. :"+number+"/ Площадь:" + square+"/ Тип:" + (type == null ? null : type.getName());
     }
 
 

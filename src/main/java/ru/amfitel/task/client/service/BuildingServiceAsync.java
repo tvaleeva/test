@@ -6,12 +6,11 @@ import ru.amfitel.task.client.dto.BuildDTO;
 import ru.amfitel.task.client.dto.CabinetDTO;
 import ru.amfitel.task.client.dto.FloorDTO;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 public interface BuildingServiceAsync {
     void loadBuildings(AsyncCallback<List<BuildDTO>> async);
-
-    void saveBuildDTO(BuildDTO b, AsyncCallback<BuildDTO> async);
 
     void saveFloorDTO(FloorDTO f, AsyncCallback<FloorDTO> async);
 
@@ -22,4 +21,6 @@ public interface BuildingServiceAsync {
     void deleteBuild(Long id, AsyncCallback<BuildDTO> async);
 
     void deleteFloor(Long id, AsyncCallback<FloorDTO> async);
+
+    void saveBuildDTO(BuildDTO b, AsyncCallback<BuildDTO> async) throws ConstraintViolationException;
 }

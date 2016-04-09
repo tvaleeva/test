@@ -55,7 +55,7 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
     }
 
     @Override
-    public BuildDTO saveBuildDTO(BuildDTO b) {
+    public BuildDTO saveBuildDTO(BuildDTO b) throws ConstraintViolationException {
 
         Set<ConstraintViolation<BuildDTO>> violations = validator.validate(b,
                 Default.class);

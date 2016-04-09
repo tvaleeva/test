@@ -6,6 +6,7 @@ import ru.amfitel.task.client.dto.BuildDTO;
 import ru.amfitel.task.client.dto.CabinetDTO;
 import ru.amfitel.task.client.dto.FloorDTO;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
 public interface BuildingService extends RemoteService {
 
     List<BuildDTO> loadBuildings();
-    BuildDTO saveBuildDTO(BuildDTO b);
+    BuildDTO saveBuildDTO(BuildDTO b) throws ConstraintViolationException;
     FloorDTO saveFloorDTO(FloorDTO f);
     CabinetDTO saveCabinetDTO(CabinetDTO c);
     CabinetDTO deleteCabinet(Long id);

@@ -33,12 +33,14 @@ public class MaterialEditor  extends FlowPanel implements LeafValueEditor<Materi
 
     @Override
     public void setValue(Material material) {
+        if(material!=null){
 
         for(int i=0;i<listBox.getItemCount();i++){
             if (listBox.getItemText(i).equals(material.getName())){
                 listBox.setSelectedIndex(i);
                 return;
             }
+        }
         }
     }
 
