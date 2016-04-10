@@ -1,5 +1,6 @@
 package ru.amfitel.task.client.tree;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import ru.amfitel.task.client.callback.DeleteCallback;
@@ -18,6 +19,16 @@ public class BuildDraggableLabel extends DraggableLabel<BuildDTO> {
 
     public BuildDraggableLabel(BuildDTO object) {
         super(object);
+    }
+
+    @Override
+    protected String getLabelText() {
+        BuildDTO object = getObject();
+        return  "Название:" + object.getName() +
+                "/ Адрес:" +object.getAddress() +
+                "/ Дата постройки:" + (object.getDate()==null? null: DateTimeFormat.getFormat("dd.M.y").format(object.getDate())) +
+                "/ Материал:" + (object.getMaterial() == null ? null : object.getMaterial().getName()) +
+                "/ Кол-во этажей:" + object.getCountFloor();
     }
 
     @Override

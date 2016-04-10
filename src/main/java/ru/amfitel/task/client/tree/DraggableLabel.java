@@ -35,8 +35,10 @@ public abstract class DraggableLabel<O extends AbstractDTO> extends Label implem
     }
 
     private void updateText() {
-        setText(object.toString());
+        setText(getLabelText());
     }
+
+    protected abstract String getLabelText();
 
     //создать нужный эдитор в реализации
     public abstract DTOEditor getEditor(AsyncCallback<O> insert, AsyncCallback<O> delete);

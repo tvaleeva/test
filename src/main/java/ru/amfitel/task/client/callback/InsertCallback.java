@@ -46,7 +46,7 @@ public class InsertCallback<O extends AbstractDTO> extends TreeChangeCallback<O>
 
         TreeItem newTreeItem = createTreeItem(abstractDTO);
         if (requiredType == null) {
-            tree.addItem(newTreeItem);
+            tree.getItem(0).addItem(newTreeItem);
         } else {
             TreeItem treeItem = findElement(requiredType, requiredId);
             treeItem.addItem(newTreeItem);
@@ -64,7 +64,7 @@ public class InsertCallback<O extends AbstractDTO> extends TreeChangeCallback<O>
                 break;
             case CABINET:
                 label = new CabinetDraggableLabel((CabinetDTO) a);
-                break;
+                return new TreeItem(label);
         }
         return new TreeItemWithButton(label);
     }

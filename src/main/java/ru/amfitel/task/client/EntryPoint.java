@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import ru.amfitel.task.client.callback.*;
@@ -25,6 +26,8 @@ import ru.amfitel.task.client.tree.CabinetDraggableLabel;
 import ru.amfitel.task.client.tree.DraggableLabel;
 import ru.amfitel.task.client.tree.FloorDraggableLabel;
 import ru.amfitel.task.client.tree.item.TreeItemWithButton;
+import ru.amfitel.task.client.tree.treeChangeEvent.TreeChangeEvent;
+import ru.amfitel.task.client.tree.treeChangeEvent.TreeChangeEventHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +94,83 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
         });
     }
 
+    private TreeChangeEventHandler treeChangeEventHandler = new TreeChangeEventHandler() {
+        @Override
+        public void onMessageReceived(TreeChangeEvent event) {
+            final WrappedCallback insert = new WrappedCallback(clearCallback, insertCallback);
+            final WrappedCallback delete = new WrappedCallback(clearCallback, deleteCallback);
+            TreeItem treeItem = event.getNewItem();
+            if (treeItem instanceof TreeItemWithButton){
+                TreeItemWithButton treeItemWithButton = (TreeItemWithButton) treeItem;
+                treeItemWithButton.addTreeChangeHandler(treeChangeEventHandler);
+
+                Widget widget = treeItemWithButton.getWidget();
+                if (widget instanceof DraggableLabel){
+                    DraggableLabel draggableLabel = (DraggableLabel) widget;
+                    final AbstractDTO abstractDTO = draggableLabel.getObject();
+
+                    switch (abstractDTO.getObjectType()){
+                        case BUILDING:
+
+                            draggableLabel.addDropHandler(new DropHandler() {
+                                @Override
+                                public void onDrop(DropEvent event) {
+                                    event.preventDefault();
+                                    FloorDTO floorDTO = (FloorDTO) DraggableLabel.getDragging().getObject();
+                                    floorDTO.setIdBuild(abstractDTO.getId());
+                                    final WrappedCallback deleteAndInsertCallback = new WrappedCallback(deleteCallback, insertCallback);
+
+                                    buildingService.saveFloorDTO(floorDTO, deleteAndInsertCallback);
+                                }
+                            });
+
+                            treeItemWithButton.addClickHandler(new ClickHandler() {
+                                @Override
+                                public void onClick(ClickEvent clickEvent) {
+                                    right.clear();
+                                    FloorEditor floorEditor = new FloorEditor(insert, delete);
+                                    right.add(floorEditor);
+                                    FloorDTO floorDTO= new FloorDTO();
+                                    floorDTO.setIdBuild(abstractDTO.getId());
+                                    floorEditor.edit(floorDTO);
+                                }
+                            });
+
+
+                            break;
+                        case FLOOR:
+                            draggableLabel.addDropHandler(new DropHandler() {
+                                @Override
+                                public void onDrop(DropEvent event) {
+                                    event.preventDefault();
+                                    CabinetDTO  cabinetDTO = (CabinetDTO) DraggableLabel.getDragging().getObject();
+                                    cabinetDTO.setIdFloor(abstractDTO.getId());
+                                    final WrappedCallback deleteAndInsertCallback = new WrappedCallback(deleteCallback,insertCallback);
+                                    buildingService.saveCabinetDTO(cabinetDTO,deleteAndInsertCallback);
+                                }
+                            });
+                            treeItemWithButton.addClickHandler(new ClickHandler() {
+                                @Override
+                                public void onClick(ClickEvent event) {
+                                    right.clear();
+                                    CabinetEditor cabinetEditor = new CabinetEditor(insert, delete);
+                                    right.add(cabinetEditor);
+                                    CabinetDTO cabinetDTO= new CabinetDTO();
+                                    cabinetDTO.setIdFloor(abstractDTO.getId());
+                                    cabinetEditor.edit(cabinetDTO);
+
+                                }
+                            });
+                            break;
+                        case CABINET:
+                            break;
+                    }
+                }
+            }
+
+        }
+    };
+
     private void redrawTree(final Tree tree) {
 
         tree.clear();
@@ -103,6 +183,8 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
             @Override
             public void onSuccess(List<BuildDTO> buildDTOs) {
                 TreeItemWithButton root = new TreeItemWithButton();
+                tree.addItem(root);
+                root.addTreeChangeHandler(treeChangeEventHandler);
                 root.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent clickEvent) {
@@ -112,59 +194,25 @@ public class EntryPoint implements com.google.gwt.core.client.EntryPoint {
                         buildEditor.edit(new BuildDTO());
                     }
                 });
+                root.setState(true);
                 //реакция дерева на сохранение объекта
                 for (final BuildDTO b : buildDTOs) {
                     DraggableLabel<BuildDTO> bdl = new BuildDraggableLabel(b);
-                    bdl.addDropHandler(new DropHandler() {
-                        @Override
-                        public void onDrop(DropEvent event) {
-                            event.preventDefault();
-                            FloorDTO floorDTO = (FloorDTO) DraggableLabel.getDragging().getObject();
-                            floorDTO.setIdBuild(b.getId());
-                            final WrappedCallback deleteAndInsertCallback = new WrappedCallback(deleteCallback, insertCallback);
-
-                            buildingService.saveFloorDTO(floorDTO, deleteAndInsertCallback);
-                        }
-                    });
                     TreeItemWithButton buildItem = new TreeItemWithButton(bdl);
-                    buildItem.addClickHandler(new ClickHandler() {
-                        @Override
-                        public void onClick(ClickEvent clickEvent) {
-                            right.clear();
-                            FloorEditor floorEditor = new FloorEditor(insert, delete);
-                            right.add(floorEditor);
-                            FloorDTO floorDTO= new FloorDTO();
-                            floorDTO.setIdBuild(b.getId());
-                            floorEditor.edit(floorDTO);
-                        }
-                    });
+                   // buildItem.addTreeChangeHandler(treeChangeEventHandler);
+                    root.addItem(buildItem);
                     for (final FloorDTO f : b.getFloors()) {
-                        TreeItemWithButton floorItem = new TreeItemWithButton(new FloorDraggableLabel(f));
+                        DraggableLabel<FloorDTO> floorDTODraggableLabel = new FloorDraggableLabel(f);
+                        TreeItemWithButton floorItem = new TreeItemWithButton(floorDTODraggableLabel);
                         buildItem.addItem(floorItem);
-                        floorItem.addClickHandler(new ClickHandler() {
-                            @Override
-                            public void onClick(ClickEvent event) {
-                                right.clear();
-                                CabinetEditor cabinetEditor = new CabinetEditor(insert, delete);
-                                right.add(cabinetEditor);
-                                CabinetDTO cabinetDTO= new CabinetDTO();
-                                cabinetDTO.setIdFloor(f.getId());
-                                cabinetEditor.edit(cabinetDTO);
-
-                            }
-                        });
-
                         for (CabinetDTO c : f.getCabinets()) {
-                            TreeItem cabinetItem = new TreeItemWithButton(new CabinetDraggableLabel(c));
+                            TreeItem cabinetItem = new TreeItem(new CabinetDraggableLabel(c));
                             floorItem.addItem(cabinetItem);
                         }
                     }
-                    root.addItem(buildItem);
-
                 }
-                tree.addItem(root);
-            }
 
+            }
         });
 
     }

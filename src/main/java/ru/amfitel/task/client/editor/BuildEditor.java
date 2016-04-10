@@ -61,14 +61,7 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
         date = new DateBox();
 
 
-        date.setFormat(new DateBox.DefaultFormat
-        (DateTimeFormat.getFormat("dd-mm-yyyy")));
-        date.addValueChangeHandler(new ValueChangeHandler<Date>() {
-            @Override
-            public void onValueChange(ValueChangeEvent<Date> event) {
-                date.setValue(null);
-            }
-        });
+        date.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd-MM-yyyy")));
         address = new TextBox();
         countFloor = new IntegerBox();
         material = new MaterialEditor();

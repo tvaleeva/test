@@ -20,6 +20,11 @@ public class FloorDraggableLabel extends DraggableLabel<FloorDTO> {
     }
 
     @Override
+    protected String getLabelText() {
+        return getObject().toString();
+    }
+
+    @Override
     public DTOEditor getEditor(AsyncCallback<FloorDTO> redrawCallback, AsyncCallback<FloorDTO> deleteCallback) {
         return  new FloorEditor(redrawCallback, deleteCallback);
     }

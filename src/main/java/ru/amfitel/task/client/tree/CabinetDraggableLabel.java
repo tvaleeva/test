@@ -17,6 +17,11 @@ public class CabinetDraggableLabel extends DraggableLabel<CabinetDTO> {
     }
 
     @Override
+    protected String getLabelText() {
+        return getObject().toString();
+    }
+
+    @Override
     public DTOEditor getEditor(AsyncCallback<CabinetDTO> redrawCallback, AsyncCallback<CabinetDTO> deleteCallback) {
         return new CabinetEditor(redrawCallback, deleteCallback);
     }
