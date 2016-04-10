@@ -18,8 +18,8 @@ public interface BuildingService extends RemoteService {
 
     List<BuildDTO> loadBuildings();
     BuildDTO saveBuildDTO(BuildDTO b) throws ConstraintViolationException;
-    FloorDTO saveFloorDTO(FloorDTO f);
-    CabinetDTO saveCabinetDTO(CabinetDTO c);
+    FloorDTO saveFloorDTO(FloorDTO f) throws ConstraintViolationException;
+    CabinetDTO saveCabinetDTO(CabinetDTO c) throws ConstraintViolationException;
     CabinetDTO deleteCabinet(Long id);
     BuildDTO deleteBuild(Long id);
     FloorDTO deleteFloor(Long id);

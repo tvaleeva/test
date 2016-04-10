@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -21,7 +22,9 @@ import ru.amfitel.task.client.service.BuildingServiceAsync;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -56,11 +59,14 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
         name = new TextBox();
         name.setName("Название");
         date = new DateBox();
-        //date.setFormat();
+
+
+        date.setFormat(new DateBox.DefaultFormat
+        (DateTimeFormat.getFormat("dd-mm-yyyy")));
         date.addValueChangeHandler(new ValueChangeHandler<Date>() {
             @Override
             public void onValueChange(ValueChangeEvent<Date> event) {
-                //clear on invalid input
+                date.setValue(null);
             }
         });
         address = new TextBox();
@@ -83,6 +89,7 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
         add(labelCountFloor);
         add(countFloor);
         add(saveButton);
+        addErrorsPanel();
     }
 
     class ErrorCallback<T> extends ru.amfitel.task.client.callback.AsyncCallback<T> {
@@ -101,10 +108,9 @@ public class BuildEditor extends DTOEditor<BuildDTO> implements ClickHandler {
 
     @Override
     public void onClick(ClickEvent clickEvent) {
-       /* WrappedCallback wrappedCallback = new WrappedCallback(new AsyncCallback[]{callback, new ErrorCallback<>()});
+        WrappedCallback wrappedCallback = new WrappedCallback(callback, new ErrorCallback<>());
         BuildDTO buildDTO = driver.flush();
         buildingService.saveBuildDTO(buildDTO, wrappedCallback);
-        */
     }
 
     @Override

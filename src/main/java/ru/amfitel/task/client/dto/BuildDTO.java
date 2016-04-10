@@ -14,18 +14,19 @@ import java.util.List;
 
 public class BuildDTO extends AbstractDTO {
 
-    @NotNull
+    @NotNull(message = "Поле \"Название\" не заполнено")
     private String name;
-    @NotNull
+
+    @NotNull(message = "Поле \"Адрес\" не заполнено")
     private String address;
 
-    @NotNull
+    @NotNull(message = "Поле \"Дата постройки\" не заполнено")
     private Date date;
 
     @NotNull
     private Material material;
 
-    @NotNull(message = "Поле \"Кол-во этажей не заполнено\"")
+    @NotNull(message = "Поле \"Кол-во этажей\" не заполнено")
     private Integer countFloor;
 
     private List<FloorDTO> floors;
@@ -88,8 +89,8 @@ public class BuildDTO extends AbstractDTO {
 
         return "Название:" + name +
                 "/ Адрес:" +address +
-                "/ Дата постройки:" + (date==null? null: DateTimeFormat.getFormat("dd.M.y").format(date)) +
+                "/ Дата постройки:" + (date==null ? null : date.toString()) +
                 "/ Материал:" + (material == null ? null : material.getName()) +
-                "/ Кол-во этажей:" + getCountFloor();
+                "/ Кол-во этажей:" + countFloor;
     }
 }

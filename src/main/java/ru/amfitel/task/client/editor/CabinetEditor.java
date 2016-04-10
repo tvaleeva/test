@@ -7,10 +7,15 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import ru.amfitel.task.client.callback.DeleteCallback;
+import ru.amfitel.task.client.callback.WrappedCallback;
 import ru.amfitel.task.client.dictionary.CabinetType;
+import ru.amfitel.task.client.dto.BuildDTO;
 import ru.amfitel.task.client.dto.CabinetDTO;
 import ru.amfitel.task.client.service.BuildingService;
 import ru.amfitel.task.client.service.BuildingServiceAsync;
+
+import javax.validation.ConstraintViolation;
+import java.util.Set;
 
 /**
  * @author tvaleeva
@@ -30,12 +35,7 @@ public class CabinetEditor extends DTOEditor<CabinetDTO> implements ClickHandler
 
     BuildingServiceAsync buildingService = GWT.create(BuildingService.class);
 
-    @Override
-    public void onClick(ClickEvent clickEvent) {
-        CabinetDTO cabinetDTO = driver.flush();
-        buildingService.saveCabinetDTO(cabinetDTO,callback);
 
-    }
 
     interface Driver extends SimpleBeanEditorDriver<CabinetDTO,CabinetEditor>{
 
@@ -59,8 +59,23 @@ public class CabinetEditor extends DTOEditor<CabinetDTO> implements ClickHandler
         add(labelType);
         add(type);
         add(save);
+        addErrorsPanel();
 
     }
+    class ErrorCallback<T> extends ru.amfitel.task.client.callback.AsyncCallback<T> {
+
+        @Override
+        public void onSuccess(T result) {
+
+        }
+
+        @Override
+        protected void onConstractViolation(Set<ConstraintViolation<?>> violations) {
+            super.onConstractViolation(violations);
+            setErrors(violations);
+        }
+    }
+
 
     @Override
     public void edit(final CabinetDTO object) {
@@ -75,6 +90,12 @@ public class CabinetEditor extends DTOEditor<CabinetDTO> implements ClickHandler
         if(object.getId()!=null)
             add(deleteButton);
 
+    }
+    @Override
+    public void onClick(ClickEvent clickEvent) {
+        WrappedCallback wrappedCallback = new WrappedCallback(callback, new ErrorCallback<>());
+        CabinetDTO cabinetDTO = driver.flush();
+        buildingService.saveCabinetDTO(cabinetDTO, wrappedCallback);
     }
 
     public IntegerBox number(){

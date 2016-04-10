@@ -65,14 +65,12 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
                     violations);
             throw new ConstraintViolationException(temp);
         }
-
         Build build;
         if (b.getId() == null) {
             build = new Build();
         } else {
             build = buildRepository.findOne(b.getId());
         }
-
         BuildTransformer transformer = new BuildTransformer();
         transformer.updateEntity(b, build);
         build= buildRepository.save(build);
@@ -82,22 +80,14 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
     }
 
     @Override
-    public FloorDTO saveFloorDTO(FloorDTO f) {
-        Floor floor;
-        if (f.getId() == null) {
-            floor = new Floor();
-        } else {
-            floor = floorRepository.findOne(f.getId());
+    public CabinetDTO saveCabinetDTO(CabinetDTO c) throws ConstraintViolationException {
+        Set<ConstraintViolation<CabinetDTO>> violations = validator.validate(c,
+                Default.class);
+        if (!violations.isEmpty()) {
+            Set<ConstraintViolation<?>> temp = new HashSet<ConstraintViolation<?>>(
+                    violations);
+            throw new ConstraintViolationException(temp);
         }
-        FloorTransformer transformer = new FloorTransformer();
-        floor.setBuildId(buildRepository.findOne(f.getIdBuild()));
-        transformer.updateEntity(f,floor);
-        floor = floorRepository.save(floor);
-        return transformer.transform(floor);
-    }
-
-    @Override
-    public CabinetDTO saveCabinetDTO(CabinetDTO c) {
         Cabinet cabinet;
 
         if(c.getId()==null){
@@ -113,6 +103,30 @@ public class BuildingService implements ru.amfitel.task.client.service.BuildingS
         cabinet = cabinetRepository.save(cabinet);
         return transformer.transform(cabinet);
     }
+
+
+    @Override
+    public FloorDTO saveFloorDTO(FloorDTO f) throws ConstraintViolationException{
+        Set<ConstraintViolation<FloorDTO>> violations = validator.validate(f,
+                Default.class);
+        if (!violations.isEmpty()) {
+            Set<ConstraintViolation<?>> temp = new HashSet<ConstraintViolation<?>>(
+                    violations);
+            throw new ConstraintViolationException(temp);
+        }
+        Floor floor;
+        if (f.getId() == null) {
+            floor = new Floor();
+        } else {
+            floor = floorRepository.findOne(f.getId());
+        }
+        FloorTransformer transformer = new FloorTransformer();
+        floor.setBuildId(buildRepository.findOne(f.getIdBuild()));
+        transformer.updateEntity(f,floor);
+        floor = floorRepository.save(floor);
+        return transformer.transform(floor);
+    }
+
 
     @Override
     public CabinetDTO deleteCabinet(Long id) {

@@ -4,14 +4,18 @@ import ru.amfitel.task.client.dictionary.CabinetType;
 import ru.amfitel.task.client.dictionary.ObjectType;
 import ru.amfitel.task.entity.Floor;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by Bublik on 27.03.2016.
  */
 
 public class CabinetDTO extends AbstractDTO {
 
+    @NotNull(message = "Поле \"№ кабинета\" не заполнено")
     private Integer number;
 
+    @NotNull(message = "Поле \"Площадь\" не заполнено")
     private Double square;
 
     private Long idFloor;

@@ -3,6 +3,7 @@ package ru.amfitel.task.client.dto;
 import ru.amfitel.task.client.dictionary.FloorType;
 import ru.amfitel.task.client.dictionary.ObjectType;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -11,9 +12,10 @@ import java.util.List;
 
 public class FloorDTO extends AbstractDTO {
 
-
+    @NotNull(message = "Поле \"№ этажа\" не заполнено")
     private Integer number;
 
+    @NotNull(message = "Поле \"Кол-во кабинетов\" не заполнено")
     private Integer countCabinet;
 
     private Float square;

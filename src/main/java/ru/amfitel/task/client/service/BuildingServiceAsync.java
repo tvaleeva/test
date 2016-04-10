@@ -13,9 +13,9 @@ import java.util.List;
 public interface BuildingServiceAsync {
     void loadBuildings(AsyncCallback<List<BuildDTO>> async);
 
-    void saveFloorDTO(FloorDTO f, AsyncCallback<FloorDTO> async);
+    void saveFloorDTO(FloorDTO f, AsyncCallback<FloorDTO> async) throws ConstraintViolationException;
 
-    void saveCabinetDTO(CabinetDTO c, AsyncCallback<CabinetDTO> async);
+    void saveCabinetDTO(CabinetDTO c, AsyncCallback<CabinetDTO> async) throws ConstraintViolationException;
 
     void deleteCabinet(Long id, AsyncCallback<CabinetDTO> async);
 

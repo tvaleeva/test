@@ -7,9 +7,14 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import ru.amfitel.task.client.callback.DeleteCallback;
+import ru.amfitel.task.client.callback.WrappedCallback;
+import ru.amfitel.task.client.dto.BuildDTO;
 import ru.amfitel.task.client.dto.FloorDTO;
 import ru.amfitel.task.client.service.BuildingService;
 import ru.amfitel.task.client.service.BuildingServiceAsync;
+
+import javax.validation.ConstraintViolation;
+import java.util.Set;
 
 /**
  * @author tvaleeva
@@ -37,14 +42,30 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
 
     @Override
     public void onClick(ClickEvent clickEvent) {
-        FloorDTO floatDto = driver.flush();
-        buildingService.saveFloorDTO(floatDto,callback);
+        WrappedCallback wrappedCallback = new WrappedCallback(callback, new ErrorCallback<>());
+        FloorDTO floorDTO = driver.flush();
+        buildingService.saveFloorDTO(floorDTO, wrappedCallback);
     }
 
 
     interface Driver extends SimpleBeanEditorDriver<FloorDTO, FloorEditor> {
 
     }
+
+    class ErrorCallback<T> extends ru.amfitel.task.client.callback.AsyncCallback<T> {
+
+        @Override
+        public void onSuccess(T result) {
+
+        }
+
+        @Override
+        protected void onConstractViolation(Set<ConstraintViolation<?>> violations) {
+            super.onConstractViolation(violations);
+            setErrors(violations);
+        }
+    }
+
 
     Driver driver = GWT.create(Driver.class);
 
@@ -67,6 +88,7 @@ public class FloorEditor extends DTOEditor<FloorDTO> implements ClickHandler  {
         add(labelType);
         add(type);
         add(save);
+        addErrorsPanel();
 
     }
 
