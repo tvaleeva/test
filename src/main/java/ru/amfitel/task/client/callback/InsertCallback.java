@@ -48,6 +48,12 @@ public class InsertCallback<O extends AbstractDTO> extends TreeChangeCallback<O>
         if (requiredType == null) {
             tree.getItem(0).addItem(newTreeItem);
         } else {
+            if (abstractDTO.getObjectType()==ObjectType.FLOOR) {
+                FloorDTO floorDTO = (FloorDTO) abstractDTO;
+                for(CabinetDTO cabinet : floorDTO.getCabinets() ){
+                    newTreeItem.addItem(createTreeItem(cabinet));
+                }
+            }
             TreeItem treeItem = findElement(requiredType, requiredId);
             treeItem.addItem(newTreeItem);
         }
