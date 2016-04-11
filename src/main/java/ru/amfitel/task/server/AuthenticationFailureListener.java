@@ -30,11 +30,9 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
         String username = authenticationFailureBadCredentialsEvent.getAuthentication().getName();
 
         User user = userRepository.findByName(username);
-
         if (user == null) {
-            return;
+            throw new UsernameNotFoundException("can't find user", new Throwable());
         }
-
         LoginAttempt loginAttempt = new LoginAttempt();
         loginAttempt.setId_user(user);
         loginAttempt.setTime(new Date());
