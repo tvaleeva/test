@@ -31,7 +31,7 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
 
         User user = userRepository.findByName(username);
         if (user == null) {
-            throw new UsernameNotFoundException("can't find user", new Throwable());
+            throw new UsernameNotFoundException("can't find user");
         }
         LoginAttempt loginAttempt = new LoginAttempt();
         loginAttempt.setId_user(user);
@@ -51,7 +51,7 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
         userRepository.save(user);
 
 
-        throw new UsernameNotFoundException("the number of remaining attempts: " + (maxExemptions - countFailAttempt), new Throwable());
+        throw new UsernameNotFoundException("the number of remaining attempts: " + (maxExemptions - countFailAttempt));
 
     }
 
